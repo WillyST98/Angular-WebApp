@@ -227,6 +227,12 @@ export class DataDisplayComponent implements OnInit {
       for (let y in this.chartDataAvg[0].avgValue) {
         if (this.chartData[i].pattern === currentPattern) {
           currentSD[i][y] = Math.pow((this.chartData[i].value[y] - this.chartDataAvg[currentchartDataAvgCounter].avgValue[y]), 2);
+          if (+i === this.chartData.length - 1) {
+            for (let z = +i - currentPatternLength; z <= +i; z++) {
+              currentSDToBePushed[y] += currentSD[z][y];
+            }
+            needToInput = true;
+          }
         } else {
           for (let z = +i - currentPatternLength; z < +i; z++) {
             currentSDToBePushed[y] += currentSD[z][y];
@@ -247,9 +253,9 @@ export class DataDisplayComponent implements OnInit {
           currentSDToBePushed[d] = 0;
         }
         currentchartDataAvgCounter++;
-        console.log(currentchartDataAvgCounter);
-        console.log(this.chartDataAvg);
-        currentPattern = this.chartDataAvg[currentchartDataAvgCounter].pattern;
+        if (currentchartDataAvgCounter < this.chartDataAvg.length) {
+          currentPattern = this.chartDataAvg[currentchartDataAvgCounter].pattern;
+        }
       }
       currentPatternLength++;
     }

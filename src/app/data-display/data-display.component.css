@@ -1,6 +1,7 @@
 #mainView {
   height: 100%;
   width: 100%;
+  overflow-x: hidden;
 }
 
 mat-radio-button {
@@ -122,4 +123,8 @@ mat-card-title {
 }
 input {
   height: 3vh;
+}
+
+.warning {
+min-height: 49vh;
 }
