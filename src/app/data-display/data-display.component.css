@@ -61,8 +61,11 @@ button {
 }
 
 .dataView {
-  width: 100vw;
+  min-width: 100vw;
   height: 53vh;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
 
 .mainChartContainer {

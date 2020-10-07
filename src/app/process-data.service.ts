@@ -26,10 +26,10 @@ export class ProcessDataService {
         pattern: 'p[0-9]+m[0-9]+b',
         value: [
           [
-            47793, 85386
+            47793, 85386, 1231
           ],
           [
-            47732, 123
+            47732, 123, 4451
           ],
         ]
       },
@@ -37,10 +37,10 @@ export class ProcessDataService {
           pattern: 'b[0-9]+h[0-9]+t',
           value: [
             [
-              16649, 2362
+              16649, 2362, 33131
             ],
             [
-              47732, 123
+              47732, 123, 12313
             ],
 
           ]
@@ -49,10 +49,10 @@ export class ProcessDataService {
           pattern: 'm[0-9]+b[0-9]+h',
           value: [
             [
-              85386, 16649
+              85386, 16649, 123341
             ],
             [
-              42131, 1235
+              42131, 1235, 123123
             ],
           ]
         }

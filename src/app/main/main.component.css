@@ -7,6 +7,7 @@
 .mainContent {
   background-color: var(--secondary-color)!important;
 
+
 }
 .header {
   display: flex;
@@ -73,4 +74,8 @@ mat-sidenav {
 mat-toolbar {
   background-color: var(--tertiary-color)!important;
   color: white !important;
+}
+mat-sidenav-content {
+  width: 90%;
+  overflow-x: hidden;
 }

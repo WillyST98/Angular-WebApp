@@ -28,13 +28,15 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DataSearchPipe} from './data-display/filter.pipe';
 import {MatTableModule} from '@angular/material/table';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatSelect, MatSelectModule} from '@angular/material/select';
 
 const material = [
   MatTabsModule,
   MatInputModule,
   MatCardModule,
   MatFormFieldModule,
-  MatButtonModule
+  MatButtonModule,
+  MatSelectModule
 ];
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ const material = [
     MatListModule,
     MatRadioModule,
     MatSidenavModule,
+    MatSelectModule,
     MatToolbarModule,
     MatAutocompleteModule,
     FlexLayoutModule,

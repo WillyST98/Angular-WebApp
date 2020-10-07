@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ProcessDataService} from '../process-data.service';
 import {responseFromAPI} from '../response';
+import  {chartDataFormat} from '../chartDataFormat';
 import {MatSelectionListChange} from '@angular/material/list';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
@@ -17,6 +18,7 @@ export class DataDisplayComponent implements OnInit {
   selectedValues: responseFromAPI[] = [];
   displayGraph = false;
   displayError = false;
+  public dataType = "average";
   public lastPattern = '';
   public responseData: responseFromAPI[] = [];
   public chartPattern: string[] = [];
@@ -24,8 +26,7 @@ export class DataDisplayComponent implements OnInit {
   public chartDataAvg: responseFromAPI[] = [];
   public chartValue: Array<any> = [];
   public chartLabels: Array<string> = [];
-  public chartType: string = 'bar';
-  public chartType2: string = 'horizontalBar'
+  public chartType: string[] = [];
   public maxCount: number = 0;
   public maxCountPattern: string;
   public maxValue1: number = 0;
@@ -285,72 +286,152 @@ export class DataDisplayComponent implements OnInit {
     // }
     this.chartLabels = [];
     this.chartValue = [];
-    var currentSum = 0;
-    var currentCounter = 0;
-    for (let i of this.selectedValues) {
-      if (this.chartLabels.includes(i.pattern)) {
+    // for (let i = 0; i < this.selectedValues.length; i++) {
+    //   this.chartValue[i] = new Array(this.chartDataAvg[0].avgValue.length);
+    //   for (var z = 0; z < this.chartValue[i].length; z++) {
+    //     this.chartValue[i][z] = 0;
+    //   }
+    // }
+    var currentColumn = 0;
+    var chartDataToBePushed = [];
+    for (let i in this.selectedValues) {
+      if (this.chartLabels.includes(this.selectedValues[i].pattern)) {
         return;
       }
-      this.chartLabels.push(i.pattern);
-      if (i.avgValue) {
-        for (let y of i.avgValue) {
-          currentSum += y;
-          currentCounter++;
-        }
-        this.chartValue.push(currentSum / currentCounter);
-        currentSum = 0;
-        currentCounter = 0;
-      } else {
-        var row = this.chartDataAvg.find(y => i.pattern === y.pattern);
-        for (let z of row.avgValue) {
-          currentSum += z;
-          currentCounter++;
-        }
-        this.chartValue.push(currentSum / currentCounter);
-        currentSum = 0;
-        currentCounter = 0;
-      }
+      this.chartLabels.push(this.selectedValues[i].pattern);
     }
-    this.chartValue = [{data: this.chartValue, label: 'data1'}];
+    for (let i in this.chartDataAvg[0].avgValue) {
+      if (this.dataType === 'average') {
+        if (this.chartDataAvg[i].avgValue) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].avgValue[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].avgValue[currentColumn]);
+            } else {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+        }
+      } else if (this.dataType === 'min') {
+        if (this.chartDataAvg[i].min) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].min[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].min[currentColumn]);
+            } else {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+        }
+      } else if (this.dataType === 'max') {
+        if (this.chartDataAvg[i].max) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].max[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].max[currentColumn]);
+            } else {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+        }
+      } else if (this.dataType === 'SD') {
+        if (this.chartDataAvg[i].SD) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].SD[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].SD[currentColumn]);
+            } else {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+        }
+      }
+      this.chartType.push('bar');
+      chartDataToBePushed = [];
+      currentColumn++;
+    }
   }
   /**
    * Exactly the same as above, but this one checks the value from chartDataAvg, which basically means it inserts all the available data
    * at the start. This function also checks for the max, min, and max count pattern for the top cards in the dashboard. This is obsolete
    * and will be removed later.
    */
+  // populateChartDataInitialize() {
+  //   this.chartLabels = [];
+  //   this.chartValue = [];
+  //   var currentSum = 0;
+  //   var currentCounter = 0;
+  //   for (let i of this.chartDataAvg) {
+  //     this.chartLabels.push(i.pattern);
+  //     for (let y of i.avgValue) {
+  //       currentSum += y;
+  //
+  //       if ((y > this.maxValue1) && currentCounter === 0) {
+  //         this.maxValue1 = y;
+  //         this.maxValue1Pattern = i.pattern;
+  //       }
+  //       if (i.value2 > this.maxValue2) {
+  //         this.maxValue2 = i.value2;
+  //         this.maxValue2Pattern = i.pattern;
+  //       }
+  //       if (y < this.minValue1 && currentCounter === 0) {
+  //         this.minValue1 = y;
+  //         this.minValue1Pattern = i.pattern;
+  //       }
+  //       if (i.value2 < this.minValue2) {
+  //         this.minValue2 = i.value2;
+  //         this.minValue2Pattern = i.pattern;
+  //       }
+  //       currentCounter++;
+  //     }
+  //     this.chartValue.push(currentSum / currentCounter);
+  //     currentSum = 0;
+  //     currentCounter = 0;
+  //   }
+  //   this.chartValue = [{data: this.chartValue, label: 'data1'}];
+  // }
+
   populateChartDataInitialize() {
     this.chartLabels = [];
     this.chartValue = [];
-    var currentSum = 0;
-    var currentCounter = 0;
-    for (let i of this.chartDataAvg) {
-      this.chartLabels.push(i.pattern);
-      for (let y of i.avgValue) {
-        currentSum += y;
-
-        if ((y > this.maxValue1) && currentCounter === 0) {
-          this.maxValue1 = y;
-          this.maxValue1Pattern = i.pattern;
-        }
-        if (i.value2 > this.maxValue2) {
-          this.maxValue2 = i.value2;
-          this.maxValue2Pattern = i.pattern;
-        }
-        if (y < this.minValue1 && currentCounter === 0) {
-          this.minValue1 = y;
-          this.minValue1Pattern = i.pattern;
-        }
-        if (i.value2 < this.minValue2) {
-          this.minValue2 = i.value2;
-          this.minValue2Pattern = i.pattern;
-        }
-        currentCounter++;
+    this.chartType = [];
+    var currentColumn = 0;
+    var chartDataToBePushed = [];
+    for (let i in this.chartDataAvg) {
+      if (this.chartLabels.includes(this.chartDataAvg[i].pattern)) {
+        return;
       }
-      this.chartValue.push(currentSum / currentCounter);
-      currentSum = 0;
-      currentCounter = 0;
+      this.chartLabels.push(this.chartDataAvg[i].pattern);
+      if (this.dataType === 'average') {
+        if (this.chartDataAvg[i].avgValue) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].avgValue[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].avgValue[currentColumn]);
+            } else  {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+          this.chartType.push('bar');
+          chartDataToBePushed = [];
+        }
+      } else if (this.dataType === 'min') {
+        if (this.chartDataAvg[i].min) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].min[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].min[currentColumn]);
+            } else  {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+          this.chartType.push('bar');
+          chartDataToBePushed = [];
+        }
+      }
+      currentColumn++;
     }
-    this.chartValue = [{data: this.chartValue, label: 'data1'}];
+    console.log(this.chartValue);
   }
 
 

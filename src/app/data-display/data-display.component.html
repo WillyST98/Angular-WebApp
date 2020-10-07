@@ -28,47 +28,40 @@
     </mat-card-content>
   </mat-card>
 
+  <mat-form-field>
+    <mat-label>Select Data to Display</mat-label>
+  <mat-select (selectionChange)="populateChartData()" [(value)]="dataType">
+    <mat-option value="average" selected>Average</mat-option>
+    <mat-option value="min">Min</mat-option>
+    <mat-option value="max">Max</mat-option>
+    <mat-option value="SD">Standard Deviation</mat-option>
+  </mat-select>
+  </mat-form-field>
+
 
   <mat-card-content>
     <div class="dataView" *ngIf="chartLabels.length > 0">
-    <mat-card class="mainChartContainer">
-      <mat-card-title>Data Display 1</mat-card-title>
-      <canvas class="mainChart" mdbChart
-              [chartType]="chartType"
-              [datasets]="chartValue"
-              [labels]="chartLabels"
-              [colors]="chartColors"
-              [options]="chartOptions"
-              [legend]="true"
-              (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)">
-      </canvas>
-      <mat-radio-group [(ngModel)]="chartType" aria-label="Select chart type">
-        <mat-radio-button value='bar' checked>Bar</mat-radio-button>
-        <mat-radio-button value='horizontalBar'>Horizontal Bar</mat-radio-button>
-        <mat-radio-button value='radar'>Radar</mat-radio-button>
-        <mat-radio-button value='line'>Line</mat-radio-button>
-      </mat-radio-group>
-    </mat-card>
-          <mat-card class="secondaryChartContainer">
-            <mat-card-title id="specialTitle">Data Display 2</mat-card-title>
-        <canvas class="secondaryChart" mdbChart
-                [chartType]="chartType2"
-                [datasets]="chartValue"
-                [labels]="chartLabels"
-                [colors]="chartColors"
-                [options]="chartOptions"
-                [legend]="true"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)">
-        </canvas>
-            <mat-radio-group [(ngModel)]="chartType2" aria-label="Select chart type">
-              <mat-radio-button value='bar' checked>Bar</mat-radio-button>
-              <mat-radio-button value='horizontalBar'>Horizontal Bar</mat-radio-button>
-              <mat-radio-button value='radar'>Radar</mat-radio-button>
-              <mat-radio-button value='line'>Line</mat-radio-button>
-            </mat-radio-group>
-          </mat-card>
+      <ng-container *ngFor="let chart of chartDataAvg[0].avgValue; let i = index">
+        <mat-card class="mainChartContainer">
+        <mat-card-title>Data Display {{i}}</mat-card-title>
+          <canvas class="mainChart" mdbChart
+                  [chartType]="chartType[i]"
+                  [datasets]="chartValue[i]"
+                  [labels]="chartLabels"
+                  [colors]="chartColors"
+                  [options]="chartOptions"
+                  [legend]="true"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)">
+          </canvas>
+          <mat-radio-group [(ngModel)]="chartType[i]" aria-label="Select chart type">
+            <mat-radio-button value='bar'>Bar</mat-radio-button>
+            <mat-radio-button value='horizontalBar'>Horizontal Bar</mat-radio-button>
+            <mat-radio-button value='radar'>Radar</mat-radio-button>
+            <mat-radio-button value='line'>Line</mat-radio-button>
+          </mat-radio-group>
+        </mat-card>
+      </ng-container>
     </div>
 
     <div class="warning" *ngIf="chartLabels.length == 0">
@@ -104,7 +97,7 @@
         <ng-container matColumnDef="selected">
           <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <div *ngIf="element.checkbox"><mat-list-option [value]="element"></mat-list-option></div>
+            <div *ngIf="element.checkbox"><mat-list-option selected="true" [value]="element"></mat-list-option></div>
           </mat-cell>
         </ng-container>
 
