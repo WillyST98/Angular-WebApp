@@ -1,0 +1,10 @@
+<mat-list>
+  <mat-list-item (click)="switchDisplay('primaryData')">Data</mat-list-item>
+  <mat-list-item (click)="switchDisplay('secondaryData')">About</mat-list-item>
+</mat-list>
+<div class="form-group">
+  <label for="file">Choose File to Mine Pattern</label>
+  <input type="file"
+         id="file"
+         (change)="handleFileInput($event.target.files)">
+</div>

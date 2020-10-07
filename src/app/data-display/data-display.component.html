@@ -1,0 +1,130 @@
+<mat-card id="mainView">
+  <mat-card class="shortCard" id="highestCount">
+    <mat-card-title>Highest Count Pattern</mat-card-title>
+    <mat-card-content>
+      <p>{{maxCountPattern}}</p>
+      <p>{{maxCount}}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="shortCard" id="highestValue1">
+    <mat-card-title>Highest Value 0 Pattern</mat-card-title>
+    <mat-card-content>
+      <p>{{maxValue1Pattern}}</p>
+      <p>{{maxValue1}}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="shortCard" id="highestValue2">
+    <mat-card-title>Highest Value 1 Pattern</mat-card-title>
+    <mat-card-content>
+      <p>{{maxValue2Pattern}} </p>
+      <p>{{maxValue2}}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="shortCard" id="lowestValue1">
+    <mat-card-title>Lowest Value 1 Pattern</mat-card-title>
+    <mat-card-content>
+      <p>{{minValue1Pattern}}</p>
+      <p>{{minValue1}}</p>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card-content>
+    <div class="dataView" *ngIf="chartLabels.length > 0">
+    <mat-card class="mainChartContainer">
+      <mat-card-title>Data Display 1</mat-card-title>
+      <canvas class="mainChart" mdbChart
+              [chartType]="chartType"
+              [datasets]="chartValue"
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+      </canvas>
+      <mat-radio-group [(ngModel)]="chartType" aria-label="Select chart type">
+        <mat-radio-button value='bar' checked>Bar</mat-radio-button>
+        <mat-radio-button value='horizontalBar'>Horizontal Bar</mat-radio-button>
+        <mat-radio-button value='radar'>Radar</mat-radio-button>
+        <mat-radio-button value='line'>Line</mat-radio-button>
+      </mat-radio-group>
+    </mat-card>
+          <mat-card class="secondaryChartContainer">
+            <mat-card-title id="specialTitle">Data Display 2</mat-card-title>
+        <canvas class="secondaryChart" mdbChart
+                [chartType]="chartType2"
+                [datasets]="chartValue"
+                [labels]="chartLabels"
+                [colors]="chartColors"
+                [options]="chartOptions"
+                [legend]="true"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+            <mat-radio-group [(ngModel)]="chartType2" aria-label="Select chart type">
+              <mat-radio-button value='bar' checked>Bar</mat-radio-button>
+              <mat-radio-button value='horizontalBar'>Horizontal Bar</mat-radio-button>
+              <mat-radio-button value='radar'>Radar</mat-radio-button>
+              <mat-radio-button value='line'>Line</mat-radio-button>
+            </mat-radio-group>
+          </mat-card>
+    </div>
+
+    <div *ngIf="chartLabels.length == 0">
+      <p>Please select at least 1 data to display!</p>
+    </div>
+
+<!--    <mat-card class="dataSearch">-->
+<!--      <mat-selection-list-->
+<!--                           [(ngModel)]="selectedValues"-->
+<!--                           (selectionChange)="populateChartData()">-->
+<!--        <mat-card-title>Pattern</mat-card-title>-->
+<!--        <mat-list-option selected *ngFor="let chartData of (chartDataAvg | dataSearch:dataSearch.value)" [value]="chartData">{{chartData.pattern}}</mat-list-option>-->
+<!--      </mat-selection-list>-->
+<!--    </mat-card>-->
+
+    <mat-card class="dataTable">
+      <div class="dataHeader" fxLayout="row wrap" fxLayoutGap="50vw" fxLayoutAlign="flex-start">
+        <mat-card-title>Table View</mat-card-title>
+        <form>
+          <mat-form-field>
+            <input id="search" type="text" matInput #dataSearch placeholder="Search for a pattern" [matAutocomplete]="auto" [formControl]="myControl">
+            <mat-autocomplete #auto="matAutocomplete" >
+              <mat-option *ngFor="let chartData of (chartDataAvg | dataSearch:dataSearch.value)" [value]="chartData.pattern">{{chartData.pattern}}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </div>
+
+      <mat-selection-list #dataToDisplay [(ngModel)]="selectedValues"
+                          (selectionChange)="populateChartData()">
+      <mat-table [dataSource]="chartData | dataSearch:dataSearch.value" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="selected">
+          <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.checkbox"><mat-list-option [value]="element"></mat-list-option></div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pattern">
+          <mat-header-cell *matHeaderCellDef> Pattern </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.pattern}}</mat-cell>
+        </ng-container>
+
+        <ng-container *ngFor="let chartData of chartData[0].value; let i = index" matColumnDef="value{{i}}">
+          <mat-header-cell *matHeaderCellDef>Value {{i}}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.value[i]}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      </mat-selection-list>
+
+    </mat-card>
+  </mat-card-content>
+
+
+</mat-card>

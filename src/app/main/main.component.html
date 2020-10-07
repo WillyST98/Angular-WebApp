@@ -1,0 +1,54 @@
+<div class="mainWrapper">
+  <div class="header">
+    <mat-toolbar>My Application</mat-toolbar>
+  </div>
+        <div class="mainContent">
+
+          <mat-sidenav-container>
+            <mat-sidenav mode="side" opened>
+              <app-sidenav
+              (switchEvent) ="switchDisplay($event)"></app-sidenav>
+            </mat-sidenav>
+            <mat-sidenav-content>
+              <div *ngIf="mainDisplay == 'primaryData'">
+          <app-data-display></app-data-display>
+              </div>
+
+              <div *ngIf="mainDisplay == 'secondaryData'">
+              <app-search-pattern></app-search-pattern>
+              </div>
+              <div *ngIf="mainDisplay == 'primaryData'">
+<!--            <div id="contentContainer">-->
+<!--            <mat-card id="inputCard">-->
+<!--              <mat-card-title>Input</mat-card-title>-->
+<!--              <mat-card-content>-->
+<!--                <form>-->
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>Regex Expression</mat-label>-->
+<!--                    <input matInput id="regexInput" name="regexInput" [(ngModel)]="this.regexInput">-->
+<!--                  </mat-form-field>-->
+<!--                  <br>-->
+<!--                  <mat-card-actions>-->
+<!--                    <button (click)="processInput()" mat-raised-button>Submit</button>-->
+<!--                  </mat-card-actions>-->
+<!--                </form>-->
+<!--              </mat-card-content>-->
+<!--            </mat-card>-->
+<!--            <mat-card id="outputCard">-->
+<!--              <mat-card-title>Output</mat-card-title>-->
+<!--              <mat-form-field appearance="fill">-->
+<!--                <mat-label>Regex Results</mat-label>-->
+<!--                <textarea id="regexOutput" name="regexOutput" [(ngModel)]="this.regexOutput"-->
+<!--                          matInput>{{this.regexOutput}}</textarea>-->
+<!--              </mat-form-field>-->
+<!--            </mat-card>-->
+<!--              <mat-card class="noFloat">-->
+<!--                <mat-card-title>Graph Output</mat-card-title>-->
+<!--                <mat-card-content class="graphOutput"></mat-card-content>-->
+<!--              </mat-card>-->
+<!--          </div>-->
+              </div>
+            </mat-sidenav-content>
+          </mat-sidenav-container>
+        </div>
+  </div>

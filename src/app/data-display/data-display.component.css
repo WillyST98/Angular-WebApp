@@ -1,0 +1,125 @@
+#mainView {
+  height: 100%;
+  width: 100%;
+}
+
+mat-radio-button {
+  margin-right: 3rem;
+}
+
+mat-radio-group {
+  margin-left: 25%;
+}
+
+p {
+  font-size: 20px;
+  background-color: grey;
+  padding: 5px;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  padding-left: 1.5%;
+}
+
+.mat-list-text {
+  width: 50%!important;
+}
+
+mat-selection-list {
+  margin-top: 1rem;
+}
+
+mat-list-option {
+  border: 1px solid black !important;
+  border-top: 0px !important;
+}
+
+mat-list-option:first-of-type {
+  border-top: 1px solid black !important;
+}
+
+button {
+  margin-top: 1%;
+}
+
+.shortCard {
+  width: 20%;
+  min-height: 10vh;
+  margin-bottom: 1vh;
+  margin-left: 3vw;
+  display: inline-block;
+}
+
+.mainChart {
+  height: 40vh!important;
+  width: 42vw !important;
+}
+
+.secondaryChart {
+  height: 40vh!important;
+  width: 42vw!important;
+}
+
+.dataView {
+  width: 100vw;
+  height: 53vh;
+}
+
+.mainChartContainer {
+  display: inline-block;
+}
+
+.secondaryChartContainer {
+  display: inline-block;
+  margin-left: 1.5vw;
+  position: absolute;
+}
+.dataSearch {
+  display: inline-block;
+  width: 40vw;
+}
+table {
+  width: 100%;
+}
+
+.dataTable {
+  display: inline-block;
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 30vw !important;
+}
+
+mat-card-title {
+  background-color: var(--tertiary-cool-grey);
+  padding: 2vh 2vh 2vh 2vh;
+}
+
+#highestCount {
+  background-color: rgba(255, 99, 132, 0.2);
+}
+#highestValue1 {
+  background-color: rgba(54, 162, 235, 0.2);
+}
+
+#highestValue2 {
+  background-color: rgba(255, 206, 86, 0.2);
+  margin-left: 5.5vw;
+}
+#lowestValue1 {
+  background-color: rgba(75, 192, 192, 0.2);
+}
+
+.shortCard mat-card-title {
+  background-color: transparent;
+  padding: 0 0 0 0;
+}
+.shortCard p {
+  background-color: transparent;
+}
+.dataHeader {
+  background-color: var(--tertiary-cool-grey);
+}
+input {
+  height: 3vh;
+}
