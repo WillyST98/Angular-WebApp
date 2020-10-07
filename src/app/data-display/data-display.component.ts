@@ -106,7 +106,11 @@ export class DataDisplayComponent implements OnInit {
   }
 
   /**
-   *
+   * This function takes the input and produces 2 array. chartDataAvg and chartData.
+   * chartDataAvg will be used to supply data to the chart
+   * chartData will be used to supply data to the table
+   * the difference between them is chartDataAvg will only have entry for each unique pattern, and have all their avg, min, max, SD
+   * chartData will contain all instance of a pattern to display on the table
    * @param input
    */
   processValue(input: responseFromAPI[]): void {
@@ -192,6 +196,16 @@ export class DataDisplayComponent implements OnInit {
     }
     this.generateSD();
   }
+
+  /**
+   * this function is run to generate standard deviation for all the chartDataAvg values
+   * currentSD will be an array that holds the sum of the difference of each value and the mean
+   * currentPattern will hold the pattern of the data that is currently being worked on
+   * currentchartDataAvgCounter will be the iterator for the chartDataAvg, used only to push the SD values into it
+   * needToInput is a boolean that is used to tell the algorithm to add the SD into chartDataAvg as the next pattern will be a new one
+   * currentPatternLength is used to determine the number of hits with pattern x/
+   * currentSDToBePushed will be a single dimensional array that will be pushed to the chartDataAvg SD property
+   */
   generateSD() {
     var currentSD: number[][] = new Array(this.chartData.length);
     var flag = true;
@@ -242,22 +256,23 @@ export class DataDisplayComponent implements OnInit {
     console.log(this.chartDataAvg);
   }
 
+  /**
+   * This function generates the column names for the table e.g value0, value1, etc
+   */
   generateColumnList() {
     for (let i in this.chartDataAvg[0].avgValue) {
       this.displayedColumns.push('value'.concat(i.toString()));
     }
   }
 
-  generateGraph() {
-    this.populateChartData();
-    if (this.chartLabels.length == 0) {
-      this.displayError = true;
-    } else {
-      this.displayGraph = true;
-      this.displayError = false;
-    }
-  }
-
+  /**
+   * This function will generate the chart data for the data that has been selected. It will empty the chartLabels and chartValue
+   * and also calculate the average for the data that has been selected
+   * chartLabels and chartValue are some of the input required to produce the chart
+   * chartLabels hold the pattern array for the chart
+   * chartValue will be the actual data for the chart
+   * currentSum will be used to sum the data together so that it can be divided by currentCounter, which counts the number of data
+   */
   populateChartData() {
     // if (this.chartLabels.includes(this.selectedValues[0].pattern)) {
     //   return;
@@ -292,7 +307,11 @@ export class DataDisplayComponent implements OnInit {
     }
     this.chartValue = [{data: this.chartValue, label: 'data1'}];
   }
-
+  /**
+   * Exactly the same as above, but this one checks the value from chartDataAvg, which basically means it inserts all the available data
+   * at the start. This function also checks for the max, min, and max count pattern for the top cards in the dashboard. This is obsolete
+   * and will be removed later.
+   */
   populateChartDataInitialize() {
     this.chartLabels = [];
     this.chartValue = [];
@@ -328,16 +347,21 @@ export class DataDisplayComponent implements OnInit {
     this.chartValue = [{data: this.chartValue, label: 'data1'}];
   }
 
-  stopDisplayingGraph() {
-    this.displayGraph = false;
-  }
 
+  /**
+   * this will create the array of pattern from the input
+   * @param chartData: the data that will be used to take the pattern from
+   */
   createPatternArray(chartData: responseFromAPI[]) {
     for (let i of chartData) {
       this.chartPattern.push(i.pattern);
     }
   }
 
+  /**
+   * this function will add the checkbox property to the chartData. It will do so for the first instance of a unique pattern
+   * This is so that the checkbox will only be displayed on the table only for every unique pattern
+   */
   private addCheckBox() {
     for (let i of this.chartData) {
       if (i.pattern != this.lastPattern) {
