@@ -453,9 +453,6 @@ export class DataDisplayComponent implements OnInit {
       }
     }
   }
-  private foo() {
-
-  }
 
   // addIntoChart(element: responseFromAPI) {
   //   var currentSum = 0;
