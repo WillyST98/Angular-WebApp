@@ -101,11 +101,6 @@ export class DataDisplayComponent implements OnInit {
     );
   }
 
-  displayObjectFunction(subject) {
-    // displays the subject only if it has a pattern property. Used in conjunction with the displayWith directive
-    return subject ? subject.pattern : undefined;
-  }
-
   /**
    * This function takes the input and produces 2 array. chartDataAvg and chartData.
    * chartDataAvg will be used to supply data to the chart
@@ -355,6 +350,7 @@ export class DataDisplayComponent implements OnInit {
    * Exactly the same as above, but this one checks the value from chartDataAvg, which basically means it inserts all the available data
    * at the start. This function also checks for the max, min, and max count pattern for the top cards in the dashboard. This is obsolete
    * and will be removed later.
+   * DONT DELETE NEXT CODE BLOCK (IF WE WANT TO AVERAGE THE RESULTS TOGETHER (GET SINGLE CHART INSTEAD OF CHART PER VALUE)
    */
   // populateChartDataInitialize() {
   //   this.chartLabels = [];
@@ -458,24 +454,24 @@ export class DataDisplayComponent implements OnInit {
     }
   }
 
-  addIntoChart(element: responseFromAPI) {
-    var currentSum = 0;
-    var currentCount = 0;
-    var newData = this.chartValue[0].data;
-    if (this.chartLabels.includes(element.pattern)) {
-      const toDelete = this.chartLabels.indexOf(element.pattern);
-      this.chartLabels.splice(toDelete, 1);
-      this.chartValue[0].data.splice(toDelete, 1);
-    } else if (element.checkbox) {
-      this.chartLabels.push(element.pattern);
-      for (let i of element.avgValue) {
-        currentSum += i;
-        currentCount++;
-        newData.push(currentSum / currentCount);
-      }
-      currentCount = 0;
-      currentSum = 0;
-      this.chartValue = [{data: newData, label: 'data1'}];
-    }
-  }
+  // addIntoChart(element: responseFromAPI) {
+  //   var currentSum = 0;
+  //   var currentCount = 0;
+  //   var newData = this.chartValue[0].data;
+  //   if (this.chartLabels.includes(element.pattern)) {
+  //     const toDelete = this.chartLabels.indexOf(element.pattern);
+  //     this.chartLabels.splice(toDelete, 1);
+  //     this.chartValue[0].data.splice(toDelete, 1);
+  //   } else if (element.checkbox) {
+  //     this.chartLabels.push(element.pattern);
+  //     for (let i of element.avgValue) {
+  //       currentSum += i;
+  //       currentCount++;
+  //       newData.push(currentSum / currentCount);
+  //     }
+  //     currentCount = 0;
+  //     currentSum = 0;
+  //     this.chartValue = [{data: newData, label: 'data1'}];
+  //   }
+  // }
 }
