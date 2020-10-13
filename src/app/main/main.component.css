@@ -72,6 +72,9 @@ mat-sidenav {
   background-color: var(--tertiary-cool-grey) !important;
   width: 10%;
 }
+.mat-drawer-inner-container {
+  overflow-x: hidden !important;
+}
 
 mat-toolbar {
   background-color: var(--tertiary-color)!important;
