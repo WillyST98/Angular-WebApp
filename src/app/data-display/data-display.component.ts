@@ -27,16 +27,18 @@ export class DataDisplayComponent implements OnInit {
   public chartValue: Array<any> = [];
   public chartLabels: Array<string> = [];
   public chartType: string[] = [];
-  public maxCount: number = 0;
-  public maxCountPattern: string;
+  public minTopCardToBePushed: number[] = [];
+  public minTopCardPattern: string [] = [];
+  public maxTopCardToBePushed: number[] = [];
+  public maxTopCardPattern: string[] = [];
+  public maxValue0: number = 0;
+  public maxValue0Pattern: string;
   public maxValue1: number = 0;
   public maxValue1Pattern: string;
-  public maxValue2: number = 0;
-  public maxValue2Pattern: string;
+  public minValue0: number = 1000000;
+  public minValue0Pattern: string;
   public minValue1: number = 1000000;
   public minValue1Pattern: string;
-  public minValue2: number = 1000000;
-  public minValue2Pattern: string;
   public chartColors: Array<any> = [
     {
       backgroundColor: [
@@ -134,10 +136,6 @@ export class DataDisplayComponent implements OnInit {
         }
         currentValue = [...i.value];
         currentCount++;
-        if (this.maxCount < currentCount) {
-          this.maxCount = currentCount;
-          this.maxCountPattern = currentPattern;
-        }
         this.chartData.push({
           pattern: currentPattern,
           value: currentValue
@@ -341,15 +339,16 @@ export class DataDisplayComponent implements OnInit {
           this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
         }
       }
+
       this.chartType.push('bar');
       chartDataToBePushed = [];
       currentColumn++;
     }
+    this.updateTopCardData();
   }
   /**
    * Exactly the same as above, but this one checks the value from chartDataAvg, which basically means it inserts all the available data
-   * at the start. This function also checks for the max, min, and max count pattern for the top cards in the dashboard. This is obsolete
-   * and will be removed later.
+   * at the start. This function will also load the data for the top cards as the above function will also do
    * DONT DELETE NEXT CODE BLOCK (IF WE WANT TO AVERAGE THE RESULTS TOGETHER (GET SINGLE CHART INSTEAD OF CHART PER VALUE)
    */
   // populateChartDataInitialize() {
@@ -393,6 +392,10 @@ export class DataDisplayComponent implements OnInit {
     this.chartType = [];
     var currentColumn = 0;
     var chartDataToBePushed = [];
+    var maxTopCardToBePushed = [];
+    var maxTopCardPattern = [];
+    var minTopCardToBePushed = [];
+    var minTopCardPattern = [];
     for (let i in this.chartDataAvg) {
       if (this.chartLabels.includes(this.chartDataAvg[i].pattern)) {
         return;
@@ -403,6 +406,20 @@ export class DataDisplayComponent implements OnInit {
           for (let y = 0; y < this.chartDataAvg.length; y++) {
             if (this.chartDataAvg[y].avgValue[currentColumn]) {
               chartDataToBePushed.push(this.chartDataAvg[y].avgValue[currentColumn]);
+              if (!maxTopCardToBePushed[currentColumn]) {
+                this.maxTopCardToBePushed[currentColumn] = this.chartDataAvg[y].max[currentColumn];
+                this.maxTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+                this.minTopCardToBePushed[currentColumn] = this.chartDataAvg[y].min[currentColumn];
+                this.minTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+              }
+              if (maxTopCardToBePushed[currentColumn] < this.chartDataAvg[y].max[currentColumn]) {
+                this.maxTopCardToBePushed[currentColumn] = this.chartDataAvg[y].max[currentColumn];
+                this.maxTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+              }
+              if (minTopCardToBePushed[currentColumn] > this.chartDataAvg[y].min[currentColumn]) {
+                this.minTopCardToBePushed[currentColumn] = this.chartDataAvg[y].min[currentColumn];
+                this.minTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+              }
             } else  {
               return;
             }
@@ -441,6 +458,26 @@ export class DataDisplayComponent implements OnInit {
     }
   }
 
+  updateTopCardData() {
+    var maxToCompare: number[] = [];
+    var minToCompare = [];
+      maxToCompare.push(this.selectedValues[0].max[0]);
+      minToCompare.push(this.selectedValues[0].min[0]);
+      this.maxValue0Pattern = this.selectedValues[0].pattern;
+      this.maxValue0 = Math.max(...maxToCompare);
+      this.minValue0 = Math.min(...minToCompare);
+      this.minValue0Pattern = this.selectedValues[0].pattern;
+      maxToCompare = [];
+      minToCompare = [];
+    maxToCompare.push(this.selectedValues[1].max[1]);
+    minToCompare.push(this.selectedValues[1].min[1]);
+    this.maxValue1Pattern = this.selectedValues[1].pattern;
+    this.maxValue1 = Math.max(...maxToCompare);
+    this.minValue1 = Math.min(...minToCompare);
+    this.minValue1Pattern = this.selectedValues[1].pattern;
+
+  }
+
   /**
    * this function will add the checkbox property to the chartData. It will do so for the first instance of a unique pattern
    * This is so that the checkbox will only be displayed on the table only for every unique pattern
@@ -475,3 +512,4 @@ export class DataDisplayComponent implements OnInit {
   //   }
   // }
 }
+

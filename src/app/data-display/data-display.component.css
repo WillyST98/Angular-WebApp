@@ -72,6 +72,10 @@ button {
   display: inline-block;
 }
 
+.mainChartContainer:last-of-type {
+  padding-right: 10vw;
+}
+
 .secondaryChartContainer {
   display: inline-block;
   margin-left: 1.5vw;
@@ -117,6 +121,11 @@ mat-card-title {
 .shortCard mat-card-title {
   background-color: transparent;
   padding: 0 0 0 0;
+  display: inline-block;
+}
+
+.shortCard:last-of-type {
+  padding-right: 25vw;
 }
 .shortCard p {
   background-color: transparent;
@@ -131,3 +140,12 @@ input {
 .warning {
 min-height: 49vh;
 }
+
+.topCard {
+  display: inline-block;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  min-width: 100vw;
+}
+

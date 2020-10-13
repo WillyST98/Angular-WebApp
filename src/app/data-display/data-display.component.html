@@ -1,32 +1,51 @@
 <mat-card id="mainView">
-  <mat-card class="shortCard" id="highestCount">
-    <mat-card-title>Highest Count Pattern</mat-card-title>
-    <mat-card-content>
-      <p>{{maxCountPattern}}</p>
-      <p>{{maxCount}}</p>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="shortCard" id="highestValue1">
-    <mat-card-title>Highest Value 0 Pattern</mat-card-title>
-    <mat-card-content>
-      <p>{{maxValue1Pattern}}</p>
-      <p>{{maxValue1}}</p>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="shortCard" id="highestValue2">
-    <mat-card-title>Highest Value 1 Pattern</mat-card-title>
-    <mat-card-content>
-      <p>{{maxValue2Pattern}} </p>
-      <p>{{maxValue2}}</p>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="shortCard" id="lowestValue1">
-    <mat-card-title>Lowest Value 1 Pattern</mat-card-title>
-    <mat-card-content>
-      <p>{{minValue1Pattern}}</p>
-      <p>{{minValue1}}</p>
-    </mat-card-content>
-  </mat-card>
+  <div class="topCard">
+  <ng-container *ngFor="let y of this.maxTopCardPattern; let i = index">
+    <mat-card class="shortCard">
+      <mat-card-title>Highest Value {{i}}</mat-card-title>
+      <mat-card-content>
+        <p>{{y}}</p>
+        <p>{{this.maxTopCardToBePushed[i]}}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="shortCard">
+      <mat-card-title>Lowest Value {{i}}</mat-card-title>
+      <mat-card-content>
+        <p>{{this.minTopCardPattern[i]}}</p>
+        <p>{{this.minTopCardToBePushed[i]}}</p>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  </div>
+<!--  <mat-card class="shortCard" id="highestCount">-->
+<!--    <mat-card-title>Highest {{maxValue0Pattern}} Value 0</mat-card-title>-->
+<!--    <mat-card-content>-->
+<!--      <p>{{maxValue0Pattern}}</p>-->
+<!--      <p>{{maxValue0}}</p>-->
+<!--    </mat-card-content>-->
+<!--  </mat-card>-->
+<!--  <mat-card class="shortCard" id="highestValue1">-->
+<!--    <mat-card-title>Lowest {{minValue0Pattern}} Value 0</mat-card-title>-->
+<!--    <mat-card-content>-->
+<!--      <p>{{minValue0Pattern}}</p>-->
+<!--      <p>{{minValue0}}</p>-->
+<!--    </mat-card-content>-->
+<!--  </mat-card>-->
+<!--  <mat-card class="shortCard" id="highestValue2">-->
+<!--    <mat-card-title>Highest {{maxValue1Pattern}} Value 1</mat-card-title>-->
+<!--    <mat-card-content>-->
+<!--      <p>{{maxValue1Pattern}} </p>-->
+<!--      <p>{{maxValue1}}</p>-->
+<!--    </mat-card-content>-->
+<!--  </mat-card>-->
+<!--  <mat-card class="shortCard" id="lowestValue1">-->
+<!--    <mat-card-title>Lowest {{minValue0Pattern}} Value 1</mat-card-title>-->
+<!--    <mat-card-content>-->
+<!--      <p>{{minValue1Pattern}}</p>-->
+<!--      <p>{{minValue1}}</p>-->
+<!--    </mat-card-content>-->
+<!--  </mat-card>-->
 
   <mat-form-field>
     <mat-label>Select Data to Display</mat-label>
