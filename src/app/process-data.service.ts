@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {responseFromAPI} from './response';
-import {Observable} from 'rxjs';
+import {rawResponse} from './rawResponse';
+import {Observable, throwError} from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,12 +14,11 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ProcessDataService {
-  private url = 'https://run.mocky.io/v3/dc1e9afe-5ede-41a6-bb02-52271023e64a';
+  private url = 'https://run.mocky.io/v3/38864020-a134-46da-b52f-c2c376c5d829';
   constructor(private http: HttpClient) { }
 
   getResponse(input?: string) {
-    // var res = this.http.get<responseFromAPI[]>(this.url, httpOptions );
-    // console.log('res' + JSON.stringify(res));
+    var test = this.http.get<rawResponse>(this.url);
     // tslint:disable-next-line:prefer-const
     var res = {
       count: 3,
@@ -58,6 +58,6 @@ export class ProcessDataService {
         }
       ]
     };
-    return res;
+    return test;
   }
 }

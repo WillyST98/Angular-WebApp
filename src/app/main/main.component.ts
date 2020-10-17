@@ -41,14 +41,6 @@ export class MainComponent implements OnInit {
   //  TO DO IMPLEMENT METHOD TO PROCESS INPUT
   //   this.processDataService.getResponse(this.regexInput)
   //     .subscribe(data => this.responseData = data);
-
-    var data = this.processDataService.getResponse(this.regexInput);
-    for (let i of data.match) {
-      for ( let y of i.value) {
-        let newInput:responseFromAPI = {pattern: i.pattern, value1: y[0], value2: y[1]};
-        this.chartData.push(newInput);
-      }
-    }
     this.processValue(this.chartData);
     console.log(this.chartData);
     this.regexOutput = this.regexInput.concat(' was your input');

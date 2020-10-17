@@ -2,16 +2,12 @@
   <div class="topCard">
   <ng-container *ngFor="let y of this.maxTopCardPattern; let i = index">
     <mat-card class="shortCard">
-      <mat-card-title>Highest Value {{i}}</mat-card-title>
+      <mat-card-title>Value {{i}}</mat-card-title>
       <mat-card-content>
+        <p>Highest Value</p>
         <p>{{y}}</p>
         <p>{{this.maxTopCardToBePushed[i]}}</p>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="shortCard">
-      <mat-card-title>Lowest Value {{i}}</mat-card-title>
-      <mat-card-content>
+        <p>Lowest Value</p>
         <p>{{this.minTopCardPattern[i]}}</p>
         <p>{{this.minTopCardToBePushed[i]}}</p>
       </mat-card-content>
@@ -46,8 +42,8 @@
 <!--      <p>{{minValue1}}</p>-->
 <!--    </mat-card-content>-->
 <!--  </mat-card>-->
-
-  <mat-form-field>
+  <div class="floatContainer">
+  <mat-form-field class="float-left">
     <mat-label>Select Data to Display</mat-label>
   <mat-select (selectionChange)="populateChartData()" [(value)]="dataType">
     <mat-option value="average" selected>Average</mat-option>
@@ -56,7 +52,8 @@
     <mat-option value="SD">Standard Deviation</mat-option>
   </mat-select>
   </mat-form-field>
-
+    <p class="float-right noBackground">Count: {{this.chartData.length}}</p>
+  </div>
 
   <mat-card-content>
     <div class="dataView" *ngIf="chartLabels.length > 0">

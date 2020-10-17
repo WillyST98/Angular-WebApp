@@ -6,6 +6,7 @@ import {MatSelectionListChange} from '@angular/material/list';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, max, startWith} from 'rxjs/operators';
+import {rawResponse} from '../rawResponse';
 
 @Component({
   selector: 'app-data-display',
@@ -18,10 +19,15 @@ export class DataDisplayComponent implements OnInit {
   selectedValues: responseFromAPI[] = [];
   displayGraph = false;
   displayError = false;
+  public rawData: rawResponse;
+  public headers;
   public dataType = "average";
   public lastPattern = '';
+  public random;
+  public firstInitialization = true;
   public responseData: responseFromAPI[] = [];
   public chartPattern: string[] = [];
+  public singleChartData: responseFromAPI;
   public chartData: responseFromAPI[] = [];
   public chartDataAvg: responseFromAPI[] = [];
   public chartValue: Array<any> = [];
@@ -75,25 +81,31 @@ export class DataDisplayComponent implements OnInit {
 
   constructor(private processDataService: ProcessDataService) {
   }
+ renderUI(data) {
+   for (let i of data.match) {
+     for (let y of i.value) {
+       let newInput: responseFromAPI = {pattern: i.pattern, value: y, value1: y[0], value2: y[1]};
+       this.chartData.push(newInput);
+     }
+   }
+   // this.convertData();
+   this.processValue(this.chartData);
+   this.createPatternArray(this.chartData);
 
+   this.filteredOptions = this.myControl.valueChanges.pipe(
+     startWith(''),
+     map(value => this._filter(value))
+   );
+   this.populateChartDataInitialize();
+   console.log(this.chartDataAvg);
+   console.log(this.chartValue);
+   this.generateColumnList();
+   this.addCheckBox();
+   console.log(this.chartLabels);
+}
   ngOnInit(): void {
-    var data = this.processDataService.getResponse();
-    for (let i of data.match) {
-      for (let y of i.value) {
-        let newInput: responseFromAPI = {pattern: i.pattern, value: y, value1: y[0], value2: y[1]};
-        this.chartData.push(newInput);
-      }
-    }
-    this.processValue(this.chartData);
-    this.createPatternArray(this.chartData);
-
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
-    this.populateChartDataInitialize();
-    this.generateColumnList();
-    this.addCheckBox();
+    // var data = this.processDataService.getResponse();
+    this.convertData();
   }
 
   private _filter(value: string): string[] {
@@ -189,6 +201,7 @@ export class DataDisplayComponent implements OnInit {
       }
     }
     this.generateSD();
+    console.log(this.chartDataAvg);
   }
 
   /**
@@ -253,7 +266,21 @@ export class DataDisplayComponent implements OnInit {
       }
       currentPatternLength++;
     }
-    console.log(this.chartDataAvg);
+  }
+
+  convertData() {
+    // this.processDataService.getResponse().subscribe((data => this.rawData = {
+    //   count: data.count,
+    //   match: data.match,
+    // }).then(()=>));
+    // console.log(this.rawData);
+    this.processDataService.getResponse().subscribe((data) => {
+      this.rawData = {
+        count: data.count,
+        match: data.match,
+      };
+      this.renderUI(this.rawData);
+    });
   }
 
   /**
@@ -277,6 +304,13 @@ export class DataDisplayComponent implements OnInit {
     // if (this.chartLabels.includes(this.selectedValues[0].pattern)) {
     //   return;
     // }
+    if (this.selectedValues.length != 0) {
+      this.firstInitialization = false;
+    }
+    if (this.selectedValues.length == 0 && this.firstInitialization == true) {
+      this.populateChartDataInitialize();
+      return;
+    }
     this.chartLabels = [];
     this.chartValue = [];
     // for (let i = 0; i < this.selectedValues.length; i++) {
@@ -344,7 +378,6 @@ export class DataDisplayComponent implements OnInit {
       chartDataToBePushed = [];
       currentColumn++;
     }
-    this.updateTopCardData();
   }
   /**
    * Exactly the same as above, but this one checks the value from chartDataAvg, which basically means it inserts all the available data
@@ -387,65 +420,152 @@ export class DataDisplayComponent implements OnInit {
   // }
 
   populateChartDataInitialize() {
+    // if (this.chartLabels.includes(this.selectedValues[0].pattern)) {
+    //   return;
+    // }
     this.chartLabels = [];
     this.chartValue = [];
-    this.chartType = [];
+    // for (let i = 0; i < this.selectedValues.length; i++) {
+    //   this.chartValue[i] = new Array(this.chartDataAvg[0].avgValue.length);
+    //   for (var z = 0; z < this.chartValue[i].length; z++) {
+    //     this.chartValue[i][z] = 0;
+    //   }
+    // }
     var currentColumn = 0;
     var chartDataToBePushed = [];
-    var maxTopCardToBePushed = [];
-    var maxTopCardPattern = [];
-    var minTopCardToBePushed = [];
-    var minTopCardPattern = [];
     for (let i in this.chartDataAvg) {
       if (this.chartLabels.includes(this.chartDataAvg[i].pattern)) {
         return;
       }
       this.chartLabels.push(this.chartDataAvg[i].pattern);
+    }
+    for (let i in this.chartDataAvg[0].avgValue) {
       if (this.dataType === 'average') {
         if (this.chartDataAvg[i].avgValue) {
           for (let y = 0; y < this.chartDataAvg.length; y++) {
             if (this.chartDataAvg[y].avgValue[currentColumn]) {
               chartDataToBePushed.push(this.chartDataAvg[y].avgValue[currentColumn]);
-              if (!maxTopCardToBePushed[currentColumn]) {
+              if (!this.maxTopCardToBePushed[currentColumn]) {
                 this.maxTopCardToBePushed[currentColumn] = this.chartDataAvg[y].max[currentColumn];
                 this.maxTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
                 this.minTopCardToBePushed[currentColumn] = this.chartDataAvg[y].min[currentColumn];
                 this.minTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
               }
-              if (maxTopCardToBePushed[currentColumn] < this.chartDataAvg[y].max[currentColumn]) {
+              if (this.maxTopCardToBePushed[currentColumn] < this.chartDataAvg[y].max[currentColumn]) {
                 this.maxTopCardToBePushed[currentColumn] = this.chartDataAvg[y].max[currentColumn];
                 this.maxTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
               }
-              if (minTopCardToBePushed[currentColumn] > this.chartDataAvg[y].min[currentColumn]) {
+              if (this.minTopCardToBePushed[currentColumn] > this.chartDataAvg[y].min[currentColumn]) {
                 this.minTopCardToBePushed[currentColumn] = this.chartDataAvg[y].min[currentColumn];
                 this.minTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
               }
-            } else  {
+            } else {
               return;
             }
           }
           this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
-          this.chartType.push('bar');
-          chartDataToBePushed = [];
         }
       } else if (this.dataType === 'min') {
         if (this.chartDataAvg[i].min) {
           for (let y = 0; y < this.chartDataAvg.length; y++) {
             if (this.chartDataAvg[y].min[currentColumn]) {
               chartDataToBePushed.push(this.chartDataAvg[y].min[currentColumn]);
-            } else  {
+            } else {
               return;
             }
           }
           this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
-          this.chartType.push('bar');
-          chartDataToBePushed = [];
+        }
+      } else if (this.dataType === 'max') {
+        if (this.chartDataAvg[i].max) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].max[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].max[currentColumn]);
+            } else {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+        }
+      } else if (this.dataType === 'SD') {
+        if (this.chartDataAvg[i].SD) {
+          for (let y = 0; y < this.chartDataAvg.length; y++) {
+            if (this.chartDataAvg[y].SD[currentColumn]) {
+              chartDataToBePushed.push(this.chartDataAvg[y].SD[currentColumn]);
+            } else {
+              return;
+            }
+          }
+          this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
         }
       }
+
+      this.chartType.push('bar');
+      chartDataToBePushed = [];
       currentColumn++;
     }
-    console.log(this.chartValue);
   }
+
+  // populateChartDataInitialize() {
+  //   this.chartLabels = [];
+  //   this.chartValue = [];
+  //   this.chartType = [];
+  //   var currentColumn = 0;
+  //   var chartDataToBePushed = [];
+  //   var maxTopCardToBePushed = [];
+  //   var maxTopCardPattern = [];
+  //   var minTopCardToBePushed = [];
+  //   var minTopCardPattern = [];
+  //   for (let i in this.chartDataAvg) {
+  //     if (this.chartLabels.includes(this.chartDataAvg[i].pattern)) {
+  //       return;
+  //     }
+  //     this.chartLabels.push(this.chartDataAvg[i].pattern);
+  //     if (this.dataType === 'average') {
+  //       if (this.chartDataAvg[i].avgValue) {
+  //         for (let y = 0; y < this.chartDataAvg.length; y++) {
+  //           if (this.chartDataAvg[y].avgValue[currentColumn]) {
+  //             chartDataToBePushed.push(this.chartDataAvg[y].avgValue[currentColumn]);
+  //             if (!maxTopCardToBePushed[currentColumn]) {
+  //               this.maxTopCardToBePushed[currentColumn] = this.chartDataAvg[y].max[currentColumn];
+  //               this.maxTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+  //               this.minTopCardToBePushed[currentColumn] = this.chartDataAvg[y].min[currentColumn];
+  //               this.minTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+  //             }
+  //             if (maxTopCardToBePushed[currentColumn] < this.chartDataAvg[y].max[currentColumn]) {
+  //               this.maxTopCardToBePushed[currentColumn] = this.chartDataAvg[y].max[currentColumn];
+  //               this.maxTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+  //             }
+  //             if (minTopCardToBePushed[currentColumn] > this.chartDataAvg[y].min[currentColumn]) {
+  //               this.minTopCardToBePushed[currentColumn] = this.chartDataAvg[y].min[currentColumn];
+  //               this.minTopCardPattern[currentColumn] = this.chartDataAvg[y].pattern;
+  //             }
+  //           } else  {
+  //             return;
+  //           }
+  //         }
+  //         this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+  //         this.chartType.push('bar');
+  //         chartDataToBePushed = [];
+  //         currentColumn++;
+  //       }
+  //     } else if (this.dataType === 'min') {
+  //       if (this.chartDataAvg[i].min) {
+  //         for (let y = 0; y < this.chartDataAvg.length; y++) {
+  //           if (this.chartDataAvg[y].min[currentColumn]) {
+  //             chartDataToBePushed.push(this.chartDataAvg[y].min[currentColumn]);
+  //           } else  {
+  //             return;
+  //           }
+  //         }
+  //         this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+  //         this.chartType.push('bar');
+  //         chartDataToBePushed = [];
+  //       }
+  //     }
+  //   }
+  //   console.log(this.chartValue);
+  // }
 
 
   /**
@@ -457,6 +577,10 @@ export class DataDisplayComponent implements OnInit {
       this.chartPattern.push(i.pattern);
     }
   }
+
+  /**
+   * This function will update the top card
+   */
 
   updateTopCardData() {
     var maxToCompare: number[] = [];
