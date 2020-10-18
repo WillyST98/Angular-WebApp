@@ -214,6 +214,7 @@ export class DataDisplayComponent implements OnInit {
    * currentSDToBePushed will be a single dimensional array that will be pushed to the chartDataAvg SD property
    */
   generateSD() {
+    var counter = 0;
     var currentSD: number[][] = new Array(this.chartData.length);
     var flag = true;
     for (let i = 0; i < this.chartData.length; i++) {
@@ -230,7 +231,7 @@ export class DataDisplayComponent implements OnInit {
     for (var i = 0; i < currentSDToBePushed.length; i++) {
       currentSDToBePushed[i] = 0;
     }
-    for (let i in this.chartData) {
+    for (let i = 0; i < this.chartData.length; i++) {
       for (let y in this.chartDataAvg[0].avgValue) {
         if (this.chartData[i].pattern === currentPattern) {
           currentSD[i][y] = Math.pow((this.chartData[i].value[y] - this.chartDataAvg[currentchartDataAvgCounter].avgValue[y]), 2);
@@ -262,9 +263,13 @@ export class DataDisplayComponent implements OnInit {
         currentchartDataAvgCounter++;
         if (currentchartDataAvgCounter < this.chartDataAvg.length) {
           currentPattern = this.chartDataAvg[currentchartDataAvgCounter].pattern;
+          if (i === this.chartData.length - 1) {
+            this.chartDataAvg[currentchartDataAvgCounter].SD = currentSDToBePushed;
+          }
         }
       }
       currentPatternLength++;
+      counter++;
     }
   }
 
@@ -364,7 +369,7 @@ export class DataDisplayComponent implements OnInit {
       } else if (this.dataType === 'SD') {
         if (this.chartDataAvg[i].SD) {
           for (let y = 0; y < this.chartDataAvg.length; y++) {
-            if (this.chartDataAvg[y].SD[currentColumn]) {
+            if (this.chartDataAvg[y].SD[currentColumn] || this.chartDataAvg[y].SD[currentColumn] == 0) {
               chartDataToBePushed.push(this.chartDataAvg[y].SD[currentColumn]);
             } else {
               return;
@@ -490,7 +495,7 @@ export class DataDisplayComponent implements OnInit {
       } else if (this.dataType === 'SD') {
         if (this.chartDataAvg[i].SD) {
           for (let y = 0; y < this.chartDataAvg.length; y++) {
-            if (this.chartDataAvg[y].SD[currentColumn]) {
+            if (this.chartDataAvg[y].SD[currentColumn] || this.chartDataAvg[y].SD[currentColumn] == 0) {
               chartDataToBePushed.push(this.chartDataAvg[y].SD[currentColumn]);
             } else {
               return;
