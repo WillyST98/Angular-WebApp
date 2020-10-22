@@ -29,6 +29,9 @@ import {DataSearchPipe} from './data-display/filter.pipe';
 import {MatTableModule} from '@angular/material/table';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatSelect, MatSelectModule} from '@angular/material/select';
+import { AppRoutingModule } from './app-routing.module';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 const material = [
   MatTabsModule,
@@ -36,7 +39,9 @@ const material = [
   MatCardModule,
   MatFormFieldModule,
   MatButtonModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressBarModule,
+  MatIconModule
 ];
 @NgModule({
   declarations: [
@@ -61,7 +66,9 @@ const material = [
     NgxBlocklyModule,
     MatTabsModule,
     MatInputModule,
+    MatIconModule,
     MatCardModule,
+    MatProgressBarModule,
     MatFormFieldModule,
     MatButtonModule,
     MatListModule,
@@ -72,6 +79,7 @@ const material = [
     MatAutocompleteModule,
     FlexLayoutModule,
     MatTableModule,
+    AppRoutingModule,
   ],
   exports: [
     MainComponent

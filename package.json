@@ -32,6 +32,7 @@
     "bootstrap": "^4.5.0",
     "chart.js": "^2.5.0",
     "hammerjs": "^2.0.8",
+    "ng2-file-upload": "^1.4.0",
     "ngx-blockly": "0.0.60",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",

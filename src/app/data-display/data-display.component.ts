@@ -97,11 +97,8 @@ export class DataDisplayComponent implements OnInit {
      map(value => this._filter(value))
    );
    this.populateChartDataInitialize();
-   console.log(this.chartDataAvg);
-   console.log(this.chartValue);
    this.generateColumnList();
    this.addCheckBox();
-   console.log(this.chartLabels);
 }
   ngOnInit(): void {
     // var data = this.processDataService.getResponse();
