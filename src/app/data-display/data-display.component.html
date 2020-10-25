@@ -119,7 +119,7 @@
 
         <ng-container matColumnDef="pattern">
           <mat-header-cell *matHeaderCellDef> Pattern </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.pattern}}</mat-cell>
+          <mat-cell *matCellDef="let element"><div *ngIf="element.checkbox">{{element.pattern}}</div></mat-cell>
         </ng-container>
 
         <ng-container *ngFor="let chartData of chartData[0].value; let i = index" matColumnDef="value{{i}}">
