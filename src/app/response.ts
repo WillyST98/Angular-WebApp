@@ -5,7 +5,6 @@ export interface responseFromAPI {
   min?: number[];
   max?: number[];
   SD?: number[];
-  value1?: number;
-  value2?: number;
   checkbox?: boolean;
+  frequency?: number;
 }

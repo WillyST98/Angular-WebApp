@@ -56,6 +56,27 @@
   </div>
 
   <mat-card-content>
+    <div class="frequencyView" *ngIf="chartLabels.length > 0">
+      <mat-card class="frequencyChartContainer">
+        <mat-card-title>Frequency Chart</mat-card-title>
+        <canvas class="mainChart" mdbChart
+                [chartType]="chartType[chartType.length - 1]"
+                [datasets]="frequencyChartValue"
+                [labels]="chartLabels"
+                [colors]="chartColors"
+                [options]="chartOptions"
+                [legend]="true"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+        <mat-radio-group [(ngModel)]="chartType[chartType.length - 1]" aria-label="Select chart type">
+          <mat-radio-button value='bar'>Bar</mat-radio-button>
+          <mat-radio-button value='horizontalBar'>Horizontal Bar</mat-radio-button>
+          <mat-radio-button value='radar'>Radar</mat-radio-button>
+          <mat-radio-button value='line'>Line</mat-radio-button>
+        </mat-radio-group>
+      </mat-card>
+    </div>
     <div class="dataView" *ngIf="chartLabels.length > 0">
       <ng-container *ngFor="let chart of chartDataAvg[0].avgValue; let i = index">
         <mat-card class="mainChartContainer">
@@ -107,19 +128,24 @@
       </div>
 
       <mat-selection-list #dataToDisplay [(ngModel)]="selectedValues"
-                          (selectionChange)="populateChartData()">
+                          (selectionChange)="populateChartData(selectedValues)">
       <mat-table [dataSource]="chartData | dataSearch:dataSearch.value" class="mat-elevation-z8">
 
         <ng-container matColumnDef="selected">
           <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <div *ngIf="element.checkbox"><mat-list-option selected="true" [value]="element"></mat-list-option></div>
+            <div *ngIf="element.checkbox"><mat-list-option [value]="element"></mat-list-option></div>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="pattern">
           <mat-header-cell *matHeaderCellDef> Pattern </mat-header-cell>
           <mat-cell *matCellDef="let element"><div *ngIf="element.checkbox">{{element.pattern}}</div></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="frequency">
+          <mat-header-cell *matHeaderCellDef> Frequency </mat-header-cell>
+          <mat-cell *matCellDef="let element"><div *ngIf="element.checkbox">{{element.frequency}}</div></mat-cell>
         </ng-container>
 
         <ng-container *ngFor="let chartData of chartData[0].value; let i = index" matColumnDef="value{{i}}">

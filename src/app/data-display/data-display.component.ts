@@ -17,6 +17,7 @@ export class DataDisplayComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   selectedValues: responseFromAPI[] = [];
+  currentSelectedValues: responseFromAPI[] = [];
   displayGraph = false;
   displayError = false;
   public rawData: rawResponse;
@@ -30,6 +31,7 @@ export class DataDisplayComponent implements OnInit {
   public singleChartData: responseFromAPI;
   public chartData: responseFromAPI[] = [];
   public chartDataAvg: responseFromAPI[] = [];
+  public frequencyChartValue;
   public chartValue: Array<any> = [];
   public chartLabels: Array<string> = [];
   public chartType: string[] = [];
@@ -70,7 +72,7 @@ export class DataDisplayComponent implements OnInit {
   public chartOptions: any = {
     responsive: true
   };
-  displayedColumns: string[] = ['selected', 'pattern'];
+  displayedColumns: string[] = ['selected', 'pattern', 'frequency'];
 
   public chartClicked(e: any): void {
   }
@@ -84,7 +86,7 @@ export class DataDisplayComponent implements OnInit {
  renderUI(data) {
    for (let i of data.match) {
      for (let y of i.value) {
-       let newInput: responseFromAPI = {pattern: i.pattern, value: y, value1: y[0], value2: y[1]};
+       let newInput: responseFromAPI = {pattern: i.pattern, value: y};
        this.chartData.push(newInput);
      }
    }
@@ -96,9 +98,12 @@ export class DataDisplayComponent implements OnInit {
      startWith(''),
      map(value => this._filter(value))
    );
+   this.addFrequency();
    this.populateChartDataInitialize();
+   this.initializeChartType();
    this.generateColumnList();
    this.addCheckBox();
+   this.initializeSelectedValues();
 }
   ngOnInit(): void {
     // var data = this.processDataService.getResponse();
@@ -198,7 +203,29 @@ export class DataDisplayComponent implements OnInit {
       }
     }
     this.generateSD();
-    console.log(this.chartDataAvg);
+  }
+
+  /**
+   * this function initializes the initial values for the selected values which is every single data entry in this case
+   * will only select each unique pattern in chartData
+   */
+  initializeSelectedValues(): void {
+    for (let i of this.chartData) {
+      if (i.checkbox) {
+        this.currentSelectedValues.push(i);
+        this.selectedValues.push(i);
+      }
+    }
+  }
+
+  updateSelectedValues(filteredList: any): void {
+    for (let i of filteredList) {
+      if (this.selectedValues.indexOf(i) == -1) {
+        var index = this.currentSelectedValues.indexOf(i, 0);
+        this.currentSelectedValues.splice(index, 1);
+        this.selectedValues = [...this.currentSelectedValues];
+      }
+    }
   }
 
   /**
@@ -213,7 +240,6 @@ export class DataDisplayComponent implements OnInit {
   generateSD() {
     var counter = 0;
     var currentSD: number[][] = new Array(this.chartData.length);
-    var flag = true;
     for (let i = 0; i < this.chartData.length; i++) {
       currentSD[i] = new Array(this.chartDataAvg[0].avgValue.length);
       for (var z = 0; z < currentSD[i].length; z++) {
@@ -295,6 +321,36 @@ export class DataDisplayComponent implements OnInit {
   }
 
   /**
+   * This function will load up the data for the frequency chart
+   * @param version will determine whether it is the first initialization of the chart or not
+   */
+  populateFrequencyChart(initialize: boolean): void {
+    this.frequencyChartValue = [];
+    var currentChartDataToBePushed = [];
+    if (initialize) {
+      for (let i of this.chartDataAvg) {
+        currentChartDataToBePushed.push(i.frequency);
+      }
+    }
+    else {
+      for (let i of this.selectedValues) {
+        currentChartDataToBePushed.push(i.frequency);
+      }
+    }
+    this.frequencyChartValue = [{data: currentChartDataToBePushed, label: 'Frequency'}];
+    console.log(currentChartDataToBePushed);
+  }
+
+  /**
+   * This function will load up the chartType array
+   */
+  initializeChartType(): void {
+    for (let i = 0; i <= this.chartDataAvg[0].avgValue.length; i++) {
+      this.chartType.push('bar');
+    }
+  }
+
+  /**
    * This function will generate the chart data for the data that has been selected. It will empty the chartLabels and chartValue
    * and also calculate the average for the data that has been selected
    * chartLabels and chartValue are some of the input required to produce the chart
@@ -302,7 +358,17 @@ export class DataDisplayComponent implements OnInit {
    * chartValue will be the actual data for the chart
    * currentSum will be used to sum the data together so that it can be divided by currentCounter, which counts the number of data
    */
-  populateChartData() {
+
+
+
+  populateChartData(filteredList?: any) {
+    this.filteredOptions.subscribe((value) => {
+
+    });
+
+
+
+
     // if (this.chartLabels.includes(this.selectedValues[0].pattern)) {
     //   return;
     // }
@@ -313,8 +379,21 @@ export class DataDisplayComponent implements OnInit {
       this.populateChartDataInitialize();
       return;
     }
+    if (filteredList) {
+      if (this.currentSelectedValues.length - filteredList.length != 1 && this.currentSelectedValues.length - filteredList.length != -1) {
+        this.updateSelectedValues(filteredList);
+        console.log(this.currentSelectedValues);
+        console.log("sakjdnsaljhdsajhkl");
+        console.log(this.currentSelectedValues.length);
+        console.log(filteredList.length);
+      } else {
+        this.currentSelectedValues = [...this.selectedValues];
+      }
+    }
+
     this.chartLabels = [];
     this.chartValue = [];
+    this.populateFrequencyChart(false);
     // for (let i = 0; i < this.selectedValues.length; i++) {
     //   this.chartValue[i] = new Array(this.chartDataAvg[0].avgValue.length);
     //   for (var z = 0; z < this.chartValue[i].length; z++) {
@@ -376,7 +455,6 @@ export class DataDisplayComponent implements OnInit {
         }
       }
 
-      this.chartType.push('bar');
       chartDataToBePushed = [];
       currentColumn++;
     }
@@ -427,6 +505,7 @@ export class DataDisplayComponent implements OnInit {
     // }
     this.chartLabels = [];
     this.chartValue = [];
+    this.populateFrequencyChart(true);
     // for (let i = 0; i < this.selectedValues.length; i++) {
     //   this.chartValue[i] = new Array(this.chartDataAvg[0].avgValue.length);
     //   for (var z = 0; z < this.chartValue[i].length; z++) {
@@ -502,7 +581,6 @@ export class DataDisplayComponent implements OnInit {
         }
       }
 
-      this.chartType.push('bar');
       chartDataToBePushed = [];
       currentColumn++;
     }
@@ -608,11 +686,53 @@ export class DataDisplayComponent implements OnInit {
    * this function will add the checkbox property to the chartData. It will do so for the first instance of a unique pattern
    * This is so that the checkbox will only be displayed on the table only for every unique pattern
    */
-  private addCheckBox() {
+  private addCheckBox(): void {
     for (let i of this.chartData) {
       if (i.pattern != this.lastPattern) {
         i.checkbox = true;
         this.lastPattern = i.pattern;
+      }
+    }
+  }
+
+  /**
+   * this function will add the frequency counter for each unique pattern in the data
+   */
+  addFrequency(): void {
+    var lastPattern = this.chartData[0].pattern;
+    var currentFrequencyCount = 0;
+    var chartDataAvgCounter = 0;
+    var chartDataPositionIterator = 0;
+    for (let i = 0; i < this.chartData.length; i++) {
+      if (i == this.chartData.length - 1) {
+        if (this.chartData[i].pattern != lastPattern) {
+          this.chartData[chartDataPositionIterator].frequency = currentFrequencyCount;
+          this.chartDataAvg[chartDataAvgCounter].frequency = currentFrequencyCount;
+          chartDataAvgCounter++;
+          chartDataPositionIterator = i;
+          currentFrequencyCount = 1;
+          lastPattern = this.chartData[i].pattern;
+          this.chartData[i].frequency = currentFrequencyCount;
+          this.chartDataAvg[chartDataAvgCounter].frequency = currentFrequencyCount;
+          return;
+        }
+        else {
+          currentFrequencyCount++;
+          this.chartData[chartDataPositionIterator].frequency = currentFrequencyCount;
+          this.chartDataAvg[chartDataAvgCounter].frequency = currentFrequencyCount;
+          return;
+        }
+      }
+      if (this.chartData[i].pattern != lastPattern) {
+        this.chartData[chartDataPositionIterator].frequency = currentFrequencyCount;
+        this.chartDataAvg[chartDataAvgCounter].frequency = currentFrequencyCount;
+        chartDataAvgCounter++;
+        chartDataPositionIterator = i;
+        currentFrequencyCount = 1;
+        lastPattern = this.chartData[i].pattern;
+      }
+      else {
+        currentFrequencyCount++;
       }
     }
   }

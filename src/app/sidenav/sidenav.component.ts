@@ -13,6 +13,7 @@ export class SidenavComponent implements OnInit {
   showSideNav: boolean = false;
   @Output() switchEvent = new EventEmitter<string>();
   private fileToUpload: File;
+  patternToMineFor: string = 'Pattern 1';
 
   constructor(private uploadService: UploadService) { }
 

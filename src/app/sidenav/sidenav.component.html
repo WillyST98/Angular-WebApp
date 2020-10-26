@@ -3,6 +3,19 @@
   <mat-list-item (click)="switchDisplay('secondaryData')">About</mat-list-item>
 </mat-list>
 <div class="form-group">
+  <label>Choose pattern to mine for</label>
+  <mat-select [(ngModel)]="patternToMineFor">
+    <mat-option value = "Pattern 1">Pattern 1</mat-option>
+    <mat-option value = "Pattern 2">Pattern 2</mat-option>
+    <mat-option value = "Pattern 3">Pattern 3</mat-option>
+    <mat-option value = "Custom">Custom</mat-option>
+  </mat-select>
+  <div *ngIf="patternToMineFor == 'Custom'">
+    <mat-form-field>
+      <mat-label>Custom Pattern</mat-label>
+    <input matInput type="text" id="patternInput">
+    </mat-form-field>
+  </div>
   <label>Choose File to Mine Pattern (You can select multiple files)</label>
   <ul>
     <li *ngFor="let file of files">

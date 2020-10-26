@@ -151,3 +151,16 @@ min-height: 49vh;
   background-color: transparent;
 }
 
+.frequencyView {
+  clear: both;
+}
+
+.frequencyChartContainer {
+  display: inline-block;
+}
+
+.frequencyView {
+  margin: auto;
+  width: 50%;
+}
+
