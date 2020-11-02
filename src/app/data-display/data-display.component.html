@@ -124,9 +124,6 @@
               <div *ngIf="searchType == 'text'">
               <mat-option *ngFor="let chartData of (chartDataAvg | dataSearch:dataSearch.value)" [value]="chartData.pattern">{{chartData.pattern}}</mat-option>
               </div>
-              <div *ngIf="searchType == 'regex'">
-                <mat-option *ngFor="let chartData of (chartDataAvg | regexdataSearch:dataSearch.value)" [value]="chartData.pattern">{{chartData.pattern}}</mat-option>
-              </div>
             </mat-autocomplete>
           </mat-form-field>
         </form>
