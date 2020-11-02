@@ -32,6 +32,7 @@ import {MatSelect, MatSelectModule} from '@angular/material/select';
 import { AppRoutingModule } from './app-routing.module';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {RegexFilterPipe} from './data-display/regexFilter.pipe';
 
 const material = [
   MatTabsModule,
@@ -52,7 +53,8 @@ const material = [
     DataDisplayComponent,
     SidenavComponent,
     SearchPatternComponent,
-    DataSearchPipe
+    DataSearchPipe,
+    RegexFilterPipe
   ],
   imports: [
     BrowserModule,

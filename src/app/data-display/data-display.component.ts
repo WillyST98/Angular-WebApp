@@ -22,7 +22,7 @@ export class DataDisplayComponent implements OnInit {
   displayError = false;
   public rawData: rawResponse;
   public headers;
-  public dataType = "average";
+  public dataType = 'average';
   public lastPattern = '';
   public random;
   public firstInitialization = true;
@@ -46,6 +46,7 @@ export class DataDisplayComponent implements OnInit {
   public minValue0: number = 1000000;
   public minValue0Pattern: string;
   public minValue1: number = 1000000;
+  searchType: string = 'text';
   public minValue1Pattern: string;
   public chartColors: Array<any> = [
     {

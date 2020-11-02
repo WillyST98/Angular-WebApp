@@ -4,12 +4,12 @@
     <mat-card class="shortCard">
       <mat-card-title>Value {{i}}</mat-card-title>
       <mat-card-content>
-        <p>Highest Value</p>
-        <p>{{y}}</p>
-        <p>{{this.maxTopCardToBePushed[i]}}</p>
-        <p>Lowest Value</p>
-        <p>{{this.minTopCardPattern[i]}}</p>
-        <p>{{this.minTopCardToBePushed[i]}}</p>
+        <div class="shortCardContent" fxLayout="row wrap" fxLayoutGap="40vw" fxLayoutAlign="flex-start">
+        <i>Highest Value</i>
+        <b>{{y}} :  {{this.maxTopCardToBePushed[i]}}</b>
+        <i>Lowest Value</i>
+        <b>{{this.minTopCardPattern[i]}} : {{this.minTopCardToBePushed[i]}}</b>
+        </div>
       </mat-card-content>
     </mat-card>
   </ng-container>
@@ -115,22 +115,31 @@
 <!--    </mat-card>-->
 
     <mat-card class="dataTable">
-      <div class="dataHeader" fxLayout="row wrap" fxLayoutGap="50vw" fxLayoutAlign="flex-start">
+      <div class="dataHeader" fxLayout="row wrap" fxLayoutGap="40vw" fxLayoutAlign="flex-start">
         <mat-card-title>Table View</mat-card-title>
         <form>
           <mat-form-field>
             <input id="search" type="text" matInput #dataSearch placeholder="Search for a pattern" [matAutocomplete]="auto" [formControl]="myControl">
             <mat-autocomplete #auto="matAutocomplete" >
+              <div *ngIf="searchType == 'text'">
               <mat-option *ngFor="let chartData of (chartDataAvg | dataSearch:dataSearch.value)" [value]="chartData.pattern">{{chartData.pattern}}</mat-option>
+              </div>
+              <div *ngIf="searchType == 'regex'">
+                <mat-option *ngFor="let chartData of (chartDataAvg | regexdataSearch:dataSearch.value)" [value]="chartData.pattern">{{chartData.pattern}}</mat-option>
+              </div>
             </mat-autocomplete>
           </mat-form-field>
         </form>
+        <mat-radio-group class="searchRadio" #radioGroup="matRadioGroup" [(ngModel)]="searchType" aria-label="Select search type">
+          <mat-radio-button value='text' checked>Text</mat-radio-button>
+          <mat-radio-button value='regex'>Regex</mat-radio-button>
+        </mat-radio-group>
       </div>
 
       <mat-selection-list #dataToDisplay [(ngModel)]="selectedValues"
                           (selectionChange)="populateChartData(selectedValues)">
+        <ng-template [ngIf]="searchType == 'text'">
       <mat-table [dataSource]="chartData | dataSearch:dataSearch.value" class="mat-elevation-z8">
-
         <ng-container matColumnDef="selected">
           <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
           <mat-cell *matCellDef="let element">
@@ -156,6 +165,37 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
+        </ng-template>
+
+        <ng-template [ngIf]="searchType == 'regex'">
+          <mat-table [dataSource]="chartData | regexdataSearch:dataSearch.value" class="mat-elevation-z8">
+            <ng-container matColumnDef="selected">
+              <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div *ngIf="element.checkbox"><mat-list-option [value]="element"></mat-list-option></div>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="pattern">
+              <mat-header-cell *matHeaderCellDef> Pattern </mat-header-cell>
+              <mat-cell *matCellDef="let element"><div *ngIf="element.checkbox">{{element.pattern}}</div></mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="frequency">
+              <mat-header-cell *matHeaderCellDef> Frequency </mat-header-cell>
+              <mat-cell *matCellDef="let element"><div *ngIf="element.checkbox">{{element.frequency}}</div></mat-cell>
+            </ng-container>
+
+            <ng-container *ngFor="let chartData of chartData[0].value; let i = index" matColumnDef="value{{i}}">
+              <mat-header-cell *matHeaderCellDef>Value {{i}}</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.value[i]}}</mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </ng-template>
+
       </mat-selection-list>
 
     </mat-card>

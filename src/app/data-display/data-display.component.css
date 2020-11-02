@@ -164,3 +164,63 @@ min-height: 49vh;
   width: 50%;
 }
 
+.searchRadio {
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: 5vw;
+  position: absolute;
+  top: 2vh;
+  right: 5vw;
+}
+
+.searchRadio mat-radio-button {
+  margin-right: 0;
+}
+
+form {
+  margin-right: 0!important;
+}
+
+
+.shortCard:nth-child(1n + 0) {
+  background-color: rgba(255, 99, 132, 0.2);
+}
+
+.shortCard:nth-child(2n + 0) {
+  background-color: rgba(54, 162, 235, 0.2);
+}
+
+.shortCard:nth-child(3n + 0) {
+  background-color: rgba(255, 206, 86, 0.2);
+}
+
+.shortCard:nth-child(4n + 0) {
+  background-color: rgba(75, 192, 192, 0.2);
+}
+
+.shortCard:nth-child(5n + 0) {
+  background-color: rgba(153, 102, 255, 0.2);
+}
+
+.shortCard:nth-child(6n + 0) {
+  background-color: rgba(255, 159, 64, 0.2);
+}
+
+b {
+  font-size: 18px;
+  padding: 5px;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  padding-left: 1.5%;
+}
+
+
+
+
+
+
+
+
+
+
+
