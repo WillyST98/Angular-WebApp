@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {ProcessDataService} from '../process-data.service';
 import {responseFromAPI} from '../response';
 import  {chartDataFormat} from '../chartDataFormat';
@@ -14,6 +14,7 @@ import {rawResponse} from '../rawResponse';
   styleUrls: ['./data-display.component.css']
 })
 export class DataDisplayComponent implements OnInit {
+  @Output() switchDisplayEvent = new EventEmitter();
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   selectedValues: responseFromAPI[] = [];
@@ -105,7 +106,20 @@ export class DataDisplayComponent implements OnInit {
    this.generateColumnList();
    this.addCheckBox();
    this.initializeSelectedValues();
+   this.test();
 }
+
+sleepTest(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
+async test() {
+    console.log("WAITING");
+    await this.sleepTest(3);
+    this.switchDisplayEvent.emit(null);
+    console.log("EVENT FIRED");
+}
+
   ngOnInit(): void {
     // var data = this.processDataService.getResponse();
     this.convertData();

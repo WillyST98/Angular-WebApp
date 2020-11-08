@@ -10,12 +10,38 @@
     <mat-option value = "Pattern 3">Pattern 3</mat-option>
     <mat-option value = "Custom">Custom</mat-option>
   </mat-select>
+  <mat-form-field>
+  <mat-label>Event Length</mat-label>
+  <input matInput type="number">
+  </mat-form-field>
   <div *ngIf="patternToMineFor == 'Custom'">
     <mat-form-field>
       <mat-label>Custom Pattern</mat-label>
-    <input matInput type="text" id="patternInput">
+    <input matInput type="text">
     </mat-form-field>
   </div>
+  <div *ngIf="patternToMineFor == 'Pattern 1'">
+    <mat-form-field>
+      <mat-label>Custom Pattern</mat-label>
+      <input matInput type="text" value="p[0-9]" readonly>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="patternToMineFor == 'Pattern 2'">
+    <mat-form-field>
+      <mat-label>Custom Pattern</mat-label>
+      <input matInput type="text" value="b[0-9]" readonly>
+    </mat-form-field>
+  </div>
+
+
+  <div *ngIf="patternToMineFor == 'Pattern 3'">
+    <mat-form-field>
+      <mat-label>Custom Pattern</mat-label>
+      <input matInput type="text" value="pca[0-9]" readonly>
+    </mat-form-field>
+  </div>
+
   <label>Choose File to Mine Pattern (You can select multiple files)</label>
   <ul>
     <li *ngFor="let file of files">

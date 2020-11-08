@@ -9,8 +9,14 @@
               (switchEvent) ="switchDisplay($event)"></app-sidenav>
             </mat-sidenav>
             <mat-sidenav-content>
+              <div *ngIf="mainDisplay == 'firstLoad'">
+                <div id="contentContainer">
+                <h1 style="text-align: center;margin-top: 30vh">Please enter the data to mine using the tools on the sidebar</h1>
+                </div>
+              </div>
               <div *ngIf="mainDisplay == 'primaryData'">
-          <app-data-display></app-data-display>
+          <app-data-display
+          (switchDisplayEvent)="switchDisplay('primaryData')"></app-data-display>
               </div>
 
               <div *ngIf="mainDisplay == 'secondaryData'">

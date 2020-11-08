@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
   public responseData: responseFromAPI[] = [];
   public chartType: string = 'bar';
   public chartData: any = [];
-  public mainDisplay: string = 'primaryData';
+  public mainDisplay: string = 'firstLoad';
   workspace: any;
   regexInput = '';
   regexOutput = '';

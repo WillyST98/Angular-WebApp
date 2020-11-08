@@ -136,7 +136,7 @@
       <mat-selection-list #dataToDisplay [(ngModel)]="selectedValues"
                           (selectionChange)="populateChartData(selectedValues)">
         <ng-template [ngIf]="searchType == 'text'">
-      <mat-table [dataSource]="chartData | dataSearch:dataSearch.value" class="mat-elevation-z8">
+      <mat-table [dataSource]="chartData | dataSearch:dataSearch.value">
         <ng-container matColumnDef="selected">
           <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
           <mat-cell *matCellDef="let element">
@@ -165,7 +165,7 @@
         </ng-template>
 
         <ng-template [ngIf]="searchType == 'regex'">
-          <mat-table [dataSource]="chartData | regexdataSearch:dataSearch.value" class="mat-elevation-z8">
+          <mat-table [dataSource]="chartData | regexdataSearch:dataSearch.value">
             <ng-container matColumnDef="selected">
               <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
               <mat-cell *matCellDef="let element">
