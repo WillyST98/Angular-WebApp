@@ -108,7 +108,7 @@ export class SidenavComponent implements OnInit {
     formData.append('event_length', eventLength);
     file.inProgress = true;
     this.uploadService.upload(formData).subscribe(async response => {this.requestID = response.requestId,
-        this.switchEvent.emit('firstLoad');
+        this.switchEvent.emit('mining');
     var localStatus = this.status;
     await this.updateRequestStatus(this.requestID);
     if (this.status == '2') {

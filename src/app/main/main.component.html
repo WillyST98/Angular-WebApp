@@ -11,10 +11,18 @@
             </mat-sidenav>
             <mat-sidenav-content>
               <div *ngIf="mainDisplay == 'firstLoad'">
-                <div id="contentContainer">
+                <div class="contentContainer">
                 <h1 style="text-align: center;margin-top: 30vh">Please enter the data to mine using the tools on the sidebar</h1>
                 </div>
               </div>
+
+              <div *ngIf="mainDisplay == 'mining'">
+                <div class="contentContainer">
+                  <h1 style="text-align: center;margin-top: 30vh">Mining...</h1>
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </div>
+              </div>
+
               <div *ngIf="mainDisplay == 'primaryData'">
           <app-data-display
           (switchDisplayEvent)="switchDisplay('primaryData')"

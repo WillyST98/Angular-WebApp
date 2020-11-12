@@ -15,7 +15,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ProcessDataService {
-  private GET_DATA_URL = 'https://run.mocky.io/v3/38864020-a134-46da-b52f-c2c376c5d829';
+  private GET_DATA_URL = 'https://run.mocky.io/v3/66ba7efb-50f8-404f-9d7e-a5f7a033f94b';
   // GET_DATA_URL: string = environment.apiEndpoint + '/qmine/getresult/request/';
   constructor(private http: HttpClient) { }
 

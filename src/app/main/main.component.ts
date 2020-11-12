@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ProcessDataService} from '../process-data.service';
 import {responseFromAPI} from '../response';
+import {DataDisplayComponent} from '../data-display/data-display.component';
 
 declare var Blockly: any;
 const httpOptions = {
@@ -25,6 +26,7 @@ export class MainComponent implements OnInit {
   workspace: any;
   regexInput = '';
   regexOutput = '';
+  @ViewChild(DataDisplayComponent) dataDisplay: DataDisplayComponent;
   url = 'https://run.mocky.io/v3/dc1e9afe-5ede-41a6-bb02-52271023e64a';
   private submitted: boolean;
   regexGraph = '';
@@ -89,5 +91,6 @@ export class MainComponent implements OnInit {
   // }
   switchDisplay(input: string): void {
     this.mainDisplay = input;
+    console.log('DATA UPDATED')
   }
 }

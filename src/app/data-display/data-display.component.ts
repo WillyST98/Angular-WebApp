@@ -563,6 +563,7 @@ async test() {
             }
           }
           this.chartValue.push([{data: chartDataToBePushed, label: 'Value '.concat(i)}]);
+          console.log(this.chartValue);
         }
       } else if (this.dataType === 'min') {
         if (this.chartDataAvg[i].min) {
