@@ -77,7 +77,7 @@
         </mat-radio-group>
       </mat-card>
     </div>
-    <div class="dataView" *ngIf="chartLabels.length > 0">
+    <div class="dataView" *ngIf="chartLabels.length > 0 && chartValue.length > 1">
       <ng-container *ngFor="let chart of chartDataAvg[0].avgValue; let i = index">
         <mat-card class="mainChartContainer">
         <mat-card-title>Data Display {{i}}</mat-card-title>
@@ -100,6 +100,32 @@
         </mat-card>
       </ng-container>
     </div>
+
+    <div class="frequencyView" *ngIf="chartLabels.length > 0 && chartValue.length == 1">
+      <ng-container *ngFor="let chart of chartDataAvg[0].avgValue; let i = index">
+        <mat-card class="frequencyChartContainer">
+          <mat-card-title>Data Display {{i}}</mat-card-title>
+          <canvas class="mainChart" mdbChart
+                  [chartType]="chartType[i]"
+                  [datasets]="chartValue[i]"
+                  [labels]="chartLabels"
+                  [colors]="chartColors"
+                  [options]="chartOptions"
+                  [legend]="true"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)">
+          </canvas>
+          <mat-radio-group [(ngModel)]="chartType[i]" aria-label="Select chart type">
+            <mat-radio-button value='bar'>Bar</mat-radio-button>
+            <mat-radio-button value='horizontalBar'>Horizontal Bar</mat-radio-button>
+            <mat-radio-button value='radar'>Radar</mat-radio-button>
+            <mat-radio-button value='line'>Line</mat-radio-button>
+          </mat-radio-group>
+        </mat-card>
+      </ng-container>
+    </div>
+
+
 
     <div class="warning" *ngIf="chartLabels.length == 0">
       <p>Please select at least 1 data to display!</p>

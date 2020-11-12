@@ -75,7 +75,9 @@ button {
 .mainChartContainer:last-of-type {
   padding-right: 10vw;
 }
-
+.onlyChartContainer {
+  display: inline-block;
+}
 .secondaryChartContainer {
   display: inline-block;
   margin-left: 1.5vw;

@@ -105,6 +105,8 @@ export class DataDisplayComponent implements OnInit {
    this.populateChartDataInitialize();
    this.initializeChartType();
    this.generateColumnList();
+   this.generateChartColor();
+   console.log(this.chartColors);
    this.addCheckBox();
    this.initializeSelectedValues();
    this.test();
@@ -309,6 +311,18 @@ async test() {
       }
       currentPatternLength++;
       counter++;
+    }
+  }
+
+  generateChartColor() {
+    var colorIterator = 0;
+    for (let i = 0; i < this.rawData.count; i++) {
+      this.chartColors[0].backgroundColor.push(this.chartColors[0].backgroundColor[colorIterator]);
+      this.chartColors[0].borderColor.push(this.chartColors[0].borderColor[colorIterator]);
+      colorIterator++;
+      if (colorIterator == 6) {
+        colorIterator = 0;
+      }
     }
   }
 

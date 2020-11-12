@@ -45,7 +45,7 @@
   <label>Choose File to Mine Pattern (You can select multiple files)</label>
   <ul>
     <li *ngFor="let file of files">
-      <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+      <mat-progress-bar style="width: 10%" [value]="file.progress"></mat-progress-bar>
       <span id="file-label">
         {{file.data.name}}
       </span>
