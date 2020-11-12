@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {AfterViewInit, Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {ProcessDataService} from '../process-data.service';
 import {responseFromAPI} from '../response';
 import  {chartDataFormat} from '../chartDataFormat';
@@ -22,6 +22,7 @@ export class DataDisplayComponent implements OnInit {
   displayGraph = false;
   displayError = false;
   public rawData: rawResponse;
+  @Input() requestId: string;
   public headers;
   public dataType = 'average';
   public lastPattern = '';
@@ -317,11 +318,13 @@ async test() {
     //   match: data.match,
     // }).then(()=>));
     // console.log(this.rawData);
-    this.processDataService.getResponse().subscribe((data) => {
+    this.processDataService.getResponse(this.requestId).subscribe((data) => {
       this.rawData = {
         count: data.count,
         match: data.match,
       };
+      console.log('ASDSADSADSADASDSADSADASDSA');
+      console.log(this.rawData);
       this.renderUI(this.rawData);
     });
   }

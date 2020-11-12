@@ -12,25 +12,25 @@
   </mat-select>
   <mat-form-field>
   <mat-label>Event Length</mat-label>
-  <input matInput type="number">
+  <input matInput type="number" [(ngModel)]="eventLength">
   </mat-form-field>
   <div *ngIf="patternToMineFor == 'Custom'">
     <mat-form-field>
       <mat-label>Custom Pattern</mat-label>
-    <input matInput type="text">
+    <input [(ngModel)]="pattern" matInput type="text">
     </mat-form-field>
   </div>
   <div *ngIf="patternToMineFor == 'Pattern 1'">
     <mat-form-field>
       <mat-label>Custom Pattern</mat-label>
-      <input matInput type="text" value="p[0-9]" readonly>
+      <input matInput type="text" [value]="customPattern1" readonly>
     </mat-form-field>
   </div>
 
   <div *ngIf="patternToMineFor == 'Pattern 2'">
     <mat-form-field>
       <mat-label>Custom Pattern</mat-label>
-      <input matInput type="text" value="b[0-9]" readonly>
+      <input matInput type="text" [value]="customPattern2" readonly>
     </mat-form-field>
   </div>
 
@@ -38,7 +38,7 @@
   <div *ngIf="patternToMineFor == 'Pattern 3'">
     <mat-form-field>
       <mat-label>Custom Pattern</mat-label>
-      <input matInput type="text" value="pca[0-9]" readonly>
+      <input matInput type="text" [value]="customPattern3" readonly>
     </mat-form-field>
   </div>
 
