@@ -86,3 +86,10 @@ mat-sidenav-content {
   width: 90%;
   overflow-x: hidden;
 }
+
+.progress-bar {
+  width: 10% !important;
+  margin: auto;
+}
+
+

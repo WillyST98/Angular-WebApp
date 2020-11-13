@@ -5,3 +5,9 @@ mat-list-item:hover {
   margin-top: 3vh;
   margin-left: 1vw;
 }
+
+.countAndSelectToolTip {
+  position: relative;
+  top: 5px;
+  margin-left: 0.5vw;
+}

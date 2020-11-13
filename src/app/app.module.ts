@@ -33,6 +33,9 @@ import { AppRoutingModule } from './app-routing.module';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {RegexFilterPipe} from './data-display/regexFilter.pipe';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog.component';
 
 const material = [
   MatTabsModule,
@@ -42,7 +45,8 @@ const material = [
   MatButtonModule,
   MatSelectModule,
   MatProgressBarModule,
-  MatIconModule
+  MatIconModule,
+  MatDialogModule
 ];
 @NgModule({
   declarations: [
@@ -54,8 +58,10 @@ const material = [
     SidenavComponent,
     SearchPatternComponent,
     DataSearchPipe,
-    RegexFilterPipe
+    RegexFilterPipe,
+    DialogComponent
   ],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -82,6 +88,8 @@ const material = [
     FlexLayoutModule,
     MatTableModule,
     AppRoutingModule,
+    MatTooltipModule,
+    MatDialogModule,
   ],
   exports: [
     MainComponent

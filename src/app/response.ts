@@ -7,4 +7,5 @@ export interface responseFromAPI {
   SD?: number[];
   checkbox?: boolean;
   frequency?: number;
+  color?: number;
 }

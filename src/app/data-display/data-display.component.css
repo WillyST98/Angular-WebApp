@@ -9,7 +9,7 @@ mat-radio-button {
 }
 
 mat-radio-group {
-  margin-left: 25%;
+  margin-left: 30.5%;
 }
 
 p {
@@ -217,9 +217,40 @@ b {
 }
 
 
+.firstColor {
+  background-color: rgba(255, 99, 132, 0.2);
+}
 
+.secondColor {
+  background-color: rgba(54, 162, 235, 0.2);
+}
 
+.thirdColor {
+  background-color: rgba(255, 206, 86, 0.2);
+}
 
+.fourthColor {
+  background-color: rgba(75, 192, 192, 0.2);
+}
+
+.fifthColor {
+  background-color: rgba(153, 102, 255, 0.2);
+}
+
+.sixthColor {
+  background-color: rgba(255, 159, 64, 0.2);
+}
+
+.moveDown {
+  position: relative;
+  top: 1vh;
+}
+
+.countAndSelectToolTip {
+  position: relative;
+  top: 5px;
+  margin-left: 0.5vw;
+}
 
 
 

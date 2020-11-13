@@ -3,6 +3,9 @@ import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { UploadService} from  '../upload.service';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogComponent} from '../dialog/dialog.component';
+
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -24,7 +27,7 @@ export class SidenavComponent implements OnInit {
   @Output() requestIdEvent = new EventEmitter<string>();
   status: string = '1';
 
-  constructor(private uploadService: UploadService) { }
+  constructor(private uploadService: UploadService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -116,43 +119,12 @@ export class SidenavComponent implements OnInit {
       this.switchEvent.emit('primaryData');
     }
     console.log(this.status);
-    // while (this.status !== '2' || this.checkStatusCounter == 5) {
-    //   this.checkRequest(this.requestID);
-    //   console.log('ran');
-    //   this.sleep(10000);
-    //   this.checkStatusCounter++;
-    // }
-        // while(this.status != 2) {
-        //   this.sleep(2000);
-        //   this.checkRequest(this.requestID);
-        //   this.sleep(2000);
-        //   if (this.status == 3) {
-        //     confirm('Error, please retry the upload');
-        //     return;
-        //   }
-        //   else if (this.status == 1) {
-        //     this.checkRequest(this.requestID);
-        //   }
-        // }
     }
     );
-    // this.uploadService.upload(formData).pipe(
-    //   map(event => {
-    //     switch (event.type) {
-    //       case HttpEventType.UploadProgress:
-    //         file.progress = Math.round(event.loaded * 100 / event.total);
-    //         break;
-    //       case HttpEventType.Response:
-    //         return event;
-    //     }
-    //   }),
-    //   catchError((error: HttpErrorResponse) => {
-    //     file.inProgress = false;
-    //     console.log(error);
-    //     return of(`${file.data.name} upload failed.`);
-    //   })).subscribe(response => {this.requestID = response,
-    //   console.log(this.requestID); }
-    // );
+  }
+
+  public openDialog(toolTipContent: string) {
+    this.dialog.open(DialogComponent, {data: {content: toolTipcontent}});
   }
 
   /**

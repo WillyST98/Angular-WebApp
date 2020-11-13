@@ -48,6 +48,8 @@ export class DataDisplayComponent implements OnInit {
   public minValue0: number = 1000000;
   public minValue0Pattern: string;
   public minValue1: number = 1000000;
+  public currentRowColor: number = 1;
+  public previousRowPattern: string;
   searchType: string = 'text';
   public minValue1Pattern: string;
   public chartColors: Array<any> = [
@@ -72,9 +74,57 @@ export class DataDisplayComponent implements OnInit {
     }
   ];
 
-  public chartOptions: any = {
-    responsive: true
+  public chartOptions = {
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          },
+          scaleLabel: {
+            labelString: 'Value',
+            display: true
+          }
+        }
+      ],
+      xAxes: [
+        {
+          scaleLabel: {
+            labelString: 'Pattern',
+            display: true
+          }
+        }
+      ]
+    }
   };
+
+  public frequencyChartOptions = {
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          },
+          scaleLabel: {
+            labelString: 'Frequency',
+            display: true
+          }
+        }
+      ],
+      xAxes: [
+        {
+          scaleLabel: {
+            labelString: 'Pattern',
+            display: true
+          }
+        }
+      ]
+    }
+  };
+
+
   displayedColumns: string[] = ['selected', 'pattern', 'frequency'];
 
   public chartClicked(e: any): void {
@@ -110,6 +160,7 @@ export class DataDisplayComponent implements OnInit {
    this.addCheckBox();
    this.initializeSelectedValues();
    this.test();
+   this.previousRowPattern == this.chartData[0].pattern;
 }
 
 sleepTest(time) {
@@ -717,14 +768,20 @@ async test() {
 
   /**
    * this function will add the checkbox property to the chartData. It will do so for the first instance of a unique pattern
-   * This is so that the checkbox will only be displayed on the table only for every unique pattern
+   * This is so that the checkbox will only be displayed on the table only for every unique pattern. This function will also add the color property so the display can display each unique pattern
+   * with their own color
    */
   private addCheckBox(): void {
     for (let i of this.chartData) {
       if (i.pattern != this.lastPattern) {
         i.checkbox = true;
+        this.currentRowColor++;
+        if (this.currentRowColor == 7) {
+          this.currentRowColor = 1;
+        }
         this.lastPattern = i.pattern;
       }
+      i.color = this.currentRowColor;
     }
   }
 
@@ -790,5 +847,11 @@ async test() {
   //     this.chartValue = [{data: newData, label: 'data1'}];
   //   }
   // }
+  updateRowColor() {
+      this.currentRowColor++;
+      if (this.currentRowColor == 7) {
+        this.currentRowColor = 1;
+      }
+  }
 }
 

@@ -15,13 +15,13 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ProcessDataService {
-  // private GET_DATA_URL = 'https://run.mocky.io/v3/66ba7efb-50f8-404f-9d7e-a5f7a033f94b';
-  GET_DATA_URL: string = environment.apiEndpoint + '/qmine/getresult/request/';
+  private GET_DATA_URL = 'https://run.mocky.io/v3/66ba7efb-50f8-404f-9d7e-a5f7a033f94b';
+  // GET_DATA_URL: string = environment.apiEndpoint + '/qmine/getresult/request/';
   constructor(private http: HttpClient) { }
 
   getResponse(requestId) {
-    var URL = this.GET_DATA_URL + requestId;
-    // var URL = this.GET_DATA_URL;
+    // var URL = this.GET_DATA_URL + requestId;
+    var URL = this.GET_DATA_URL;
     return this.http.get(URL);
     // var test = this.http.get<rawResponse>(this.url);
     // var res = {
