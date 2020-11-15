@@ -11,3 +11,7 @@ mat-list-item:hover {
   top: 5px;
   margin-left: 0.5vw;
 }
+
+mat-icon:hover {
+  cursor: pointer;
+}

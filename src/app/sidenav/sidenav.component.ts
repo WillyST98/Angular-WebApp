@@ -18,7 +18,7 @@ export class SidenavComponent implements OnInit {
   private fileToUpload: File;
   patternToMineFor: string = 'Pattern 1';
   eventLength: number;
-  pattern: string = 'p[0-9]';
+  pattern: string = '';
   customPattern1: string = '0M1';
   customPattern2: string = '0M2';
   customPattern3: string = '0M3';
@@ -124,7 +124,7 @@ export class SidenavComponent implements OnInit {
   }
 
   public openDialog(toolTipContent: string) {
-    this.dialog.open(DialogComponent, {data: {content: toolTipcontent}});
+    this.dialog.open(DialogComponent, {data: {content: toolTipContent}});
   }
 
   /**
