@@ -23,6 +23,7 @@ export class MainComponent implements OnInit {
   public chartData: any = [];
   public mainDisplay: string = 'firstLoad';
   public requestId: string;
+  public pattern: string;
   workspace: any;
   regexInput = '';
   regexOutput = '';

@@ -3,7 +3,7 @@
   <mat-list-item (click)="switchDisplay('secondaryData')">About</mat-list-item>
 </mat-list>
 <div class="form-group">
-  <label>Choose pattern to mine for <mat-icon (click)="openDialog()" class="countAndSelectToolTip" >help</mat-icon></label>
+  <label>Choose pattern to mine for <mat-icon (click)="openDialog('sidenavInfo')" class="countAndSelectToolTip" >help</mat-icon></label>
   <mat-select [(ngModel)]="patternToMineFor">
     <mat-option value = "Pattern 1">Pattern 1</mat-option>
     <mat-option value = "Pattern 2">Pattern 2</mat-option>
@@ -40,7 +40,7 @@
   </div>
 
   <mat-form-field>
-    <mat-label>Event Length</mat-label>
+    <mat-label>Alphabet Length</mat-label>
     <input matInput type="number" [(ngModel)]="eventLength">
   </mat-form-field>
 
@@ -53,15 +53,18 @@
       </span>
     </li>
   </ul>
-  <button mat-button (click)="onClick()">
-    <mat-icon>file_upload</mat-icon>
-    Upload
-  </button>
   <input type="file"
          #fileUpload
          id="fileUpload"
          name="fileUpload"
          multiple="multiple"
-         style="display: none"
+         (change)="changeListener($event)"
   >
+  <div *ngIf="this.filePreview">
+    <button (click)="previewFile()">Preview</button>
+  </div>
+  <button mat-button (click)="onClickNoUpload()">
+    <mat-icon>file_upload</mat-icon>
+    Upload
+  </button>
 </div>

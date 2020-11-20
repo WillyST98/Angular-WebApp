@@ -1,29 +1,40 @@
 <div id="contentContainer">
-  <mat-card id="inputCard">
-    <mat-card-title>Input</mat-card-title>
-    <mat-card-content>
-      <form>
-        <mat-form-field appearance="outline">
-          <mat-label>Regex Expression</mat-label>
-          <input matInput id="regexInput" name="regexInput" [(ngModel)]="this.regexInput">
-        </mat-form-field>
-        <br>
-      </form>
-      <mat-card-actions>
-        <button (click)="processInput()" mat-raised-button>Submit</button>
-      </mat-card-actions>
-    </mat-card-content>
+<!--  <mat-card id="inputCard">-->
+<!--    <mat-card-title>Input</mat-card-title>-->
+<!--    <mat-card-content>-->
+<!--      <form>-->
+<!--        <mat-form-field appearance="outline">-->
+<!--          <mat-label>Regex Expression</mat-label>-->
+<!--          <input matInput id="regexInput" name="regexInput" [(ngModel)]="this.regexInput">-->
+<!--        </mat-form-field>-->
+<!--        <br>-->
+<!--      </form>-->
+<!--      <mat-card-actions>-->
+<!--        <button (click)="processInput()" mat-raised-button>Submit</button>-->
+<!--      </mat-card-actions>-->
+<!--    </mat-card-content>-->
+<!--  </mat-card>-->
+<!--  <mat-card id="outputCard">-->
+<!--    <mat-card-title>Output</mat-card-title>-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Regex Results</mat-label>-->
+<!--      <textarea id="regexOutput" name="regexOutput" [(ngModel)]="this.regexOutput"-->
+<!--                matInput>{{this.regexOutput}}</textarea>-->
+<!--    </mat-form-field>-->
+<!--  </mat-card>-->
+<!--  <mat-card class="noFloat">-->
+<!--    <mat-card-title>Graph Output</mat-card-title>-->
+<!--    <mat-card-content class="graphOutput"></mat-card-content>-->
+<!--  </mat-card>-->
+
+  <mat-card class="About">
+    <mat-card-title>About this Tool</mat-card-title>
+    <mat-card-content> <p>The Qmine tool is a cutting edge tool that allows users to upload and process trace logs. It analyzes trace files by searching through them for Regex patterns called
+      Qualitative Regular Expression Template (QRET). By analyzing these tools files, one can detect anomalies or any point of interest that the user wishes to find from the system.
+    It separates the data</p></mat-card-content>
   </mat-card>
-  <mat-card id="outputCard">
-    <mat-card-title>Output</mat-card-title>
-    <mat-form-field appearance="outline">
-      <mat-label>Regex Results</mat-label>
-      <textarea id="regexOutput" name="regexOutput" [(ngModel)]="this.regexOutput"
-                matInput>{{this.regexOutput}}</textarea>
-    </mat-form-field>
-  </mat-card>
-  <mat-card class="noFloat">
-    <mat-card-title>Graph Output</mat-card-title>
-    <mat-card-content class="graphOutput"></mat-card-content>
+
+  <mat-card class="Authors">
+    <mat-card-title>Authors</mat-card-title>
   </mat-card>
 </div>

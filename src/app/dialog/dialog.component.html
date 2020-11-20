@@ -1,3 +1,6 @@
+
+<div *ngIf="data.content == 'sidenavInfo' then sidenavInfo else filePreview;"></div>
+<ng-template #sidenavInfo>
 <h2 mat-dialog-title>Mining for a pattern</h2>
 <mat-dialog-content>
   <h3>Step 1 Choosing a pattern to mine for:</h3>
@@ -5,16 +8,28 @@
   The set of predetermined patterns are: </p>
   <ol>
   <li>Pattern 1: 0M1</li>
-    <p>This pattern will search for this behaviour..........</p>
-  <li>Pattern 2: 0M2</li>
-    <p>This pattern will search for this behaviour..........</p>
-  <li>Pattern 3: 0M3</li>
-    <p>This pattern will search for this behaviour..........</p>
+    <p>0.M.1 -> Event-0 followed by a numeric expression followed by Event-1</p>
+  <li>Pattern 2: 0M1M2</li>
+    <p>0.M.1.M.2 -> Event-0 followed by a numeric expression followed by Event-1 followed by a numeric expression followed by Event-2</p>
+  <li>Pattern 3: 0M1M2M3</li>
+    <p>0.M.1.M.2.M.3 -> Event-0 followed by a numeric expression followed by Event-1 followed by a numeric expression followed by Event-2 and lastly followed by a numeric expression and then the last Event-3</p>
 </ol>
 
- <p> You can also create your custom pattern by selecting the custom option, and then inputting your own regex pattern into the available field.</p>
-<h3> Step 2 Choosing the event length:</h3>
-  <p>The event length will determine how long the event will be..............</p>
+ <p> You can also create your custom pattern by selecting the custom option, and then inputting your own QRET template into the available field. The QRET should be in the form of any sequence of XY where: <br>
+ A number X which represents an event X. <br>
+ An alphabet Y which represents the quantizer for the events that it follows<br>
+ The system will then attempt to mine for any event in the trace that matches these pattern.</p>
+<h3> Step 2 Choosing the alphabet length:</h3>
+  <p>The event length will determine how long the event will be. What this means is how many possible events are there. This number is capped at 26 at the moment, as any number bigger than that
+  will severely slow the system, as the calculations will grow exponentially</p>
   <h3>Step 3 Choosing the file to mine:</h3>
   <p>The file must be of type x. You should also only attempt to mine one file at a time</p>
 </mat-dialog-content>
+</ng-template>
+
+<ng-template #filePreview >
+  <h2 mat-dialog-title>File Preview</h2>
+  <mat-dialog-content>
+    <p class="filePreview">{{data.content}}</p>
+  </mat-dialog-content>
+</ng-template>

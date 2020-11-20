@@ -2,7 +2,7 @@
   <div class="topCard">
   <ng-container *ngFor="let y of this.maxTopCardPattern; let i = index">
     <mat-card class="shortCard">
-      <mat-card-title>M<sub>{{i}}</sub><mat-icon class="shortCardToolTip" matTooltip="This card will display the highest and lowest M{{i}} that is present in the data">help</mat-icon></mat-card-title>
+      <mat-card-title>M<sub>{{i}}</sub><mat-icon class="shortCardToolTip" matTooltip="The value of quantizer {{i}} of pattern {{patternBeingMined}}">info</mat-icon></mat-card-title>
       <mat-card-content>
         <div class="shortCardContent" fxLayout="row wrap" fxLayoutGap="40vw" fxLayoutAlign="flex-start">
         <i>Highest Value</i>
@@ -77,9 +77,9 @@
           <mat-option value="SD">Standard Deviation</mat-option>
         </mat-select>
       </mat-form-field> <mat-icon style="top: 1vh" class="countAndSelectToolTip" matTooltip="This dropdown will allow you to select the operator done to the data. This will then be shown
-        in the following charts.">help</mat-icon>
+        in the following charts.">info</mat-icon>
       <p class="float-right noBackground">Count: {{this.chartData.length}}
-        <mat-icon class="countAndSelectToolTip" matTooltip="This count shows the number of pattern matches that came from the mining">help</mat-icon>
+        <mat-icon class="countAndSelectToolTip" matTooltip="This count shows the number of pattern matches that came from the mining">info</mat-icon>
       </p>
     </div>
 
@@ -159,55 +159,56 @@
             </mat-autocomplete>
           </mat-form-field>
         </form>
-        <mat-radio-group class="searchRadio" #radioGroup="matRadioGroup" [(ngModel)]="searchType" aria-label="Select search type">
-          <mat-radio-button value='text' checked>Text</mat-radio-button>
-          <mat-radio-button value='regex'>Regex</mat-radio-button>
-        </mat-radio-group>
+        <mat-icon class="countAndSelectToolTip" matTooltip="You can input a regex pattern here to search for it in the results table">info</mat-icon>
+<!--        <mat-radio-group class="searchRadio" #radioGroup="matRadioGroup" [(ngModel)]="searchType" aria-label="Select search type">-->
+<!--          <mat-radio-button value='text' checked>Text</mat-radio-button>-->
+<!--          <mat-radio-button value='regex'>Regex</mat-radio-button>-->
+<!--        </mat-radio-group>-->
       </div>
 
       <mat-selection-list #dataToDisplay [(ngModel)]="selectedValues"
                           (selectionChange)="populateChartData(selectedValues)">
-        <ng-template [ngIf]="searchType == 'text'">
-      <mat-table [dataSource]="chartData | dataSearch:dataSearch.value">
+<!--        <ng-template [ngIf]="searchType == 'text'">-->
+<!--      <mat-table [dataSource]="chartData | dataSearch:dataSearch.value">-->
 
-        <ng-container matColumnDef="selected">
-          <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
-          <mat-cell
-            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)
-            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"
-            *matCellDef="let element">
-            <div *ngIf="element.checkbox"><mat-list-option [value]="element"></mat-list-option></div>
-          </mat-cell>
-        </ng-container>
+<!--        <ng-container matColumnDef="selected">-->
+<!--          <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>-->
+<!--          <mat-cell-->
+<!--            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)-->
+<!--            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"-->
+<!--            *matCellDef="let element">-->
+<!--            <div *ngIf="element.checkbox"><mat-list-option [value]="element"></mat-list-option></div>-->
+<!--          </mat-cell>-->
+<!--        </ng-container>-->
 
-        <ng-container matColumnDef="pattern">
-          <mat-header-cell *matHeaderCellDef> Pattern </mat-header-cell>
-          <mat-cell
-            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)
-            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"
-            *matCellDef="let element"><div *ngIf="element.checkbox">{{element.pattern}}</div></mat-cell>
-        </ng-container>
+<!--        <ng-container matColumnDef="pattern">-->
+<!--          <mat-header-cell *matHeaderCellDef> Pattern </mat-header-cell>-->
+<!--          <mat-cell-->
+<!--            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)-->
+<!--            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"-->
+<!--            *matCellDef="let element"><div *ngIf="element.checkbox">{{element.pattern}}</div></mat-cell>-->
+<!--        </ng-container>-->
 
-        <ng-container matColumnDef="frequency">
-          <mat-header-cell *matHeaderCellDef> Frequency </mat-header-cell>
-          <mat-cell
-            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)
-            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"
-            *matCellDef="let element"><div *ngIf="element.checkbox">{{element.frequency}}</div></mat-cell>
-        </ng-container>
+<!--        <ng-container matColumnDef="frequency">-->
+<!--          <mat-header-cell *matHeaderCellDef> Frequency </mat-header-cell>-->
+<!--          <mat-cell-->
+<!--            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)-->
+<!--            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"-->
+<!--            *matCellDef="let element"><div *ngIf="element.checkbox">{{element.frequency}}</div></mat-cell>-->
+<!--        </ng-container>-->
 
-        <ng-container *ngFor="let chartData of chartData[0].value; let i = index" matColumnDef="value{{i}}">
-          <mat-header-cell *matHeaderCellDef>M<sub>{{i}}</sub></mat-header-cell>
-          <mat-cell
-            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)
-            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"
-            *matCellDef="let element">{{element.value[i]}}</mat-cell>
-        </ng-container>
+<!--        <ng-container *ngFor="let chartData of chartData[0].value; let i = index" matColumnDef="value{{i}}">-->
+<!--          <mat-header-cell *matHeaderCellDef>M<sub>{{i}}</sub></mat-header-cell>-->
+<!--          <mat-cell-->
+<!--            [ngClass]="{'firstColor': (element.color == 1), 'secondColor': (element.color == 2), 'thirdColor': (element.color == 3), 'fourthColor': (element.color == 4)-->
+<!--            , 'fifthColor': (element.color == 5), 'sixthColor': (element.color == 6)}"-->
+<!--            *matCellDef="let element">{{element.value[i]}}</mat-cell>-->
+<!--        </ng-container>-->
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-        </ng-template>
+<!--        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>-->
+<!--        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>-->
+<!--      </mat-table>-->
+<!--        </ng-template>-->
 
         <ng-template [ngIf]="searchType == 'regex'">
           <mat-table [dataSource]="chartData | regexdataSearch:dataSearch.value">

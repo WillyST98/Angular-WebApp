@@ -1,13 +1,14 @@
 <div>
 <div class="header">
-    <mat-toolbar>My Application</mat-toolbar>
+    <mat-toolbar>QMine Tool</mat-toolbar>
   </div>
         <div class="mainContent">
           <mat-sidenav-container>
             <mat-sidenav mode="side" opened>
               <app-sidenav
               (switchEvent) ="switchDisplay($event)"
-              (requestIdEvent)="this.requestId = $event"></app-sidenav>
+              (requestIdEvent)="this.requestId = $event"
+              (patternEvent)="this.pattern = $event"></app-sidenav>
             </mat-sidenav>
             <mat-sidenav-content>
               <div *ngIf="mainDisplay == 'firstLoad'">
@@ -26,7 +27,8 @@
               <div *ngIf="mainDisplay == 'primaryData'">
           <app-data-display
           (switchDisplayEvent)="switchDisplay('primaryData')"
-          [requestId]="this.requestId"></app-data-display>
+          [requestId]="this.requestId"
+          [patternBeingMined]="this.pattern"></app-data-display>
               </div>
 
               <div *ngIf="mainDisplay == 'secondaryData'">

@@ -20,12 +20,15 @@ export class SidenavComponent implements OnInit {
   eventLength: number;
   pattern: string = '';
   customPattern1: string = '0M1';
-  customPattern2: string = '0M2';
-  customPattern3: string = '0M3';
+  customPattern2: string = '0M1M2';
+  customPattern3: string = '0M1M2M3';
   requestID: string;
+  filePreview: boolean = false;
   checkStatusCounter = 0;
   @Output() requestIdEvent = new EventEmitter<string>();
+  @Output() patternEvent = new EventEmitter<string>();
   status: string = '1';
+  fileToUploadPreview: File;
 
   constructor(private uploadService: UploadService, public dialog: MatDialog) { }
 
@@ -148,21 +151,63 @@ export class SidenavComponent implements OnInit {
       }
       if (this.patternToMineFor == 'Custom') {
         this.uploadFiles(this.pattern, this.eventLength);
+        this.patternEvent.emit(this.pattern);
       }
       if (this.patternToMineFor == 'Pattern 1') {
         this.uploadFiles(this.customPattern1, this.eventLength);
+        this.patternEvent.emit(this.customPattern1);
       }
       if (this.patternToMineFor == 'Pattern 2') {
         this.uploadFiles(this.customPattern2, this.eventLength);
+        this.patternEvent.emit(this.customPattern2);
       }
       if (this.patternToMineFor == 'Pattern 3') {
         this.uploadFiles(this.customPattern3, this.eventLength);
+        this.patternEvent.emit(this.customPattern3);
       }
     };
     fileUpload.click();
   }
 
+  onClickNoUpload() {
+    const fileUpload = this.fileUpload.nativeElement;
+    for (let index = 0; index < fileUpload.files.length; index++)
+    {
+      const file = fileUpload.files[index];
+      this.files.push({ data: file, inProgress: false, progress: 0});
+    }
+    if (this.patternToMineFor == 'Custom') {
+      this.uploadFiles(this.pattern, this.eventLength);
+    }
+    if (this.patternToMineFor == 'Pattern 1') {
+      this.uploadFiles(this.customPattern1, this.eventLength);
+    }
+    if (this.patternToMineFor == 'Pattern 2') {
+      this.uploadFiles(this.customPattern2, this.eventLength);
+    }
+    if (this.patternToMineFor == 'Pattern 3') {
+      this.uploadFiles(this.customPattern3, this.eventLength);
+    }
+  }
+
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
+  }
+
+  previewFile() {
+    let fileReader = new FileReader();
+    var fileContent = '';
+    fileReader.onload = (e) => {
+      console.log(fileReader.result);
+      fileContent = fileReader.result;
+      this.dialog.open(DialogComponent, {data: {content: fileContent}});
+    };
+    fileReader.readAsText(this.fileToUploadPreview);
+  }
+
+  changeListener($event): void {
+    this.filePreview = true;
+    this.fileToUploadPreview = $event.target.files[0];
+    console.log(this.fileToUploadPreview);
   }
 }

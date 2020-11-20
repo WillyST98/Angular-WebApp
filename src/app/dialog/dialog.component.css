@@ -1,0 +1,7 @@
+.filePreview {
+  word-wrap: break-word;
+}
+
+.mat-dialog-container {
+  min-height: 40% !important;
+}

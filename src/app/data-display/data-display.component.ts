@@ -23,10 +23,12 @@ export class DataDisplayComponent implements OnInit {
   displayError = false;
   public rawData: rawResponse;
   @Input() requestId: string;
+  @Input() patternBeingMined: string;
   public headers;
   public dataType = 'average';
   public lastPattern = '';
   public random;
+  public topCardToolTip = 'The value of quantizer of pattern 0 M 1';
   public firstInitialization = true;
   public responseData: responseFromAPI[] = [];
   public chartPattern: string[] = [];
@@ -50,7 +52,7 @@ export class DataDisplayComponent implements OnInit {
   public minValue1: number = 1000000;
   public currentRowColor: number = 1;
   public previousRowPattern: string;
-  searchType: string = 'text';
+  searchType: string = 'regex';
   public minValue1Pattern: string;
   public chartColors: Array<any> = [
     {
