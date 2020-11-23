@@ -1,4 +1,4 @@
-<div id="contentContainer">
+<div class="contentContainer">
 <!--  <mat-card id="inputCard">-->
 <!--    <mat-card-title>Input</mat-card-title>-->
 <!--    <mat-card-content>-->
@@ -26,15 +26,37 @@
 <!--    <mat-card-title>Graph Output</mat-card-title>-->
 <!--    <mat-card-content class="graphOutput"></mat-card-content>-->
 <!--  </mat-card>-->
-
+<div class="floatContainer">
   <mat-card class="About">
     <mat-card-title>About this Tool</mat-card-title>
     <mat-card-content> <p>The Qmine tool is a cutting edge tool that allows users to upload and process trace logs. It analyzes trace files by searching through them for Regex patterns called
       Qualitative Regular Expression Template (QRET). By analyzing these tools files, one can detect anomalies or any point of interest that the user wishes to find from the system.
-    It separates the data</p></mat-card-content>
+    It separates the trace into separate finite state machines (FSM) that work on independent parts of the data. The trace separation is done using a sliding window method, where each
+    window will take a set subset of the trace and try to search for the QRET pattern there. Afterwards, the system will take any matches from the search and will be displayed on this tool.</p>
+     </mat-card-content>
+    <img class="diagram" src="assets/images/qmineDiagram.png">
   </mat-card>
+</div>
 
   <mat-card class="Authors">
     <mat-card-title>Authors</mat-card-title>
+    <div class="floatContainer">
+      <div class="author">
+    <h2>Apurva Narayan</h2>
+    <img width="350" height="400" src="assets/images/ANarayan.jpg">
+    <p>Dr Apurva Narayan is a professor working in the University of British Columbia.</p>
+      </div>
+
+      <div class="author">
+    <h2>Pradeep Mahato</h2>
+    <img width="350" height="400" src="assets/images/Pradeep.jpg">
+    <p>Pradeep Mahato is a masters student that is from the University of British Columbia</p>
+      </div>
+      <div class="author">
+    <h2>Wiliam Setiawan</h2>
+    <img width="350" height="400" src="assets/images/wSetia.jpg">
+    <p>Most of his contributions is on the front end aspect of the QMine Tool</p>
+      </div>
+    </div>
   </mat-card>
 </div>
